@@ -1,0 +1,2 @@
+/etc/modules.d/32-mdio
+/lib/modules/5.15.132/mdio.ko

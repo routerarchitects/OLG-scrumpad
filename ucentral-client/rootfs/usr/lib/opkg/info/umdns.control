@@ -1,0 +1,12 @@
+Package: umdns
+Version: 2024-01-08-e91ed406-1
+Depends: libc, libubox20240329, libubus20230605, libblobmsg-json20240329
+Source: package/network/services/umdns
+SourceName: umdns
+License: LGPL-2.1
+Section: net
+SourceDateEpoch: 1761103960
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: x86_64
+Installed-Size: 16833
+Description:  OpenWrt Multicast DNS Daemon

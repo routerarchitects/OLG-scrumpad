@@ -1,0 +1,12 @@
+Package: ucentral-state
+Version: 1
+Depends: libc
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/ucentral/ucentral-state
+SourceName: ucentral-state
+License: BSD-3-Clause
+Section: ucentral
+SourceDateEpoch: 1714488773
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: x86_64
+Installed-Size: 2225
+Description:  uCentral state monitoring daemon

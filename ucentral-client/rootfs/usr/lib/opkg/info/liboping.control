@@ -1,0 +1,13 @@
+Package: liboping
+Version: 1.10.0-3
+Depends: libc
+Source: feeds/packages/libs/liboping
+SourceName: liboping
+License: LGPL-2.1-or-later
+Section: libs
+SourceDateEpoch: 1761088275
+CPE-ID: cpe:/a:noping:liboping
+Maintainer: Jo-Philipp Wich <jo@mein.io>
+Architecture: x86_64
+Installed-Size: 7414
+Description:  C library to generate ICMP echo requests.

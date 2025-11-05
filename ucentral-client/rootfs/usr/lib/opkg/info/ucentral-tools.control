@@ -1,0 +1,12 @@
+Package: ucentral-tools
+Version: 2025-09-29-17bd7d55-1
+Depends: libc, libubox20240329, libcurl4, libradcli, libopenssl3
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/ucentral/ucentral-tools
+SourceName: ucentral-tools
+License: BSD-3-Clause
+Section: ucentral
+SourceDateEpoch: 1693490915
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: x86_64
+Installed-Size: 16864
+Description:  ucentral tools collection

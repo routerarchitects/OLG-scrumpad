@@ -1,0 +1,12 @@
+Package: qosify
+Version: 2023-07-20-850cc271-1
+Depends: libc, libbpf1, libubox20240329, libubus20230605, libnl-tiny1, kmod-sched-cake, kmod-sched-bpf, kmod-ifb, tc
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/ucentral/qosify
+SourceName: qosify
+License: GPL-2.0
+Section: utils
+SourceDateEpoch: 1693490915
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: x86_64
+Installed-Size: 25820
+Description:  A simple QoS solution based eBPF + CAKE

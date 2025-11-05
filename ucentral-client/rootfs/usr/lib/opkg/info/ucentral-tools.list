@@ -1,0 +1,8 @@
+/etc/radcli/dictionary
+/etc/radcli/dictionary.chillispot
+/usr/sbin/dhcpdiscover
+/usr/sbin/radiusprobe
+/usr/sbin/dnsprobe
+/etc/radcli/dictionary.WISPr
+/usr/sbin/ip-collide
+/etc/hotplug.d/iface/90-ip-collide

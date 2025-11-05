@@ -1,0 +1,3 @@
+/etc/config/gps
+/etc/init.d/ugps
+/usr/sbin/ugps

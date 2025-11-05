@@ -1,0 +1,11 @@
+Package: ucentral-dataplane
+Version: 1
+Depends: libc, tc-full, kmod-ifb
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/ucentral/ucentral-dataplane
+SourceName: ucentral-dataplane
+Section: ucentral
+SourceDateEpoch: 1627212288
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: x86_64
+Installed-Size: 878
+Description:  Allow loading cBPF and eBPF programs

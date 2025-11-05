@@ -1,0 +1,14 @@
+Package: libuclient20201210
+Version: 2024-04-05-6c16331e-1
+Depends: libc, libubox20240329
+Provides: libuclient
+Source: package/libs/uclient
+SourceName: libuclient
+License: ISC
+Section: libs
+SourceDateEpoch: 1761103960
+ABIVersion: 20201210
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: x86_64
+Installed-Size: 10750
+Description:  HTTP/1.1 client library

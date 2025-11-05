@@ -1,0 +1,4 @@
+/lib/preinit/75_certificates
+/etc/uci-defaults/99-tip-certificates.sh
+/usr/bin/mount_certs
+/etc/init.d/early_boot

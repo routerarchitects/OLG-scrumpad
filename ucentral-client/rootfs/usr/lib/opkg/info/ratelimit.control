@@ -1,0 +1,11 @@
+Package: ratelimit
+Version: 1
+Depends: libc, tc, kmod-ifb
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/ucentral/ratelimit
+SourceName: ratelimit
+Section: net
+SourceDateEpoch: 1717745935
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: x86_64
+Installed-Size: 2549
+Description:  Allow Wireless client rate limiting

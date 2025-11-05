@@ -1,0 +1,12 @@
+Package: radius-gw-proxy
+Version: 1
+Depends: libc, libubox20240329, libubus20230605
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/ucentral/radius-gw-proxy
+SourceName: radius-gw-proxy
+License: BSD-3-Clause
+Section: ucentral
+SourceDateEpoch: 1686838947
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: x86_64
+Installed-Size: 4483
+Description:  uCentral Gateway radius-gw-proxy

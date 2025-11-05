@@ -1,0 +1,12 @@
+Package: udevmand
+Version: 20220112-979aca47-1
+Depends: libc, libubus20230605, libblobmsg-json20240329, ubusd, libjson-c5, libnl-tiny1, libuci20130104
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/ucentral/udevmand
+SourceName: udevmand
+License: LGPL-2.1
+Section: ucentral
+SourceDateEpoch: 1716998360
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: x86_64
+Installed-Size: 12336
+Description:  Network devman mapping daemon

@@ -1,0 +1,14 @@
+Package: libwebsockets-openssl
+Version: 4.1.4-1
+Depends: libc, zlib, libcap, libopenssl3
+Provides: libwebsockets
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/ucentral/libwebsockets
+SourceName: libwebsockets-openssl
+License: LGPL-2.1+exception
+LicenseFiles: LICENSE
+Section: libs
+SourceDateEpoch: 1695905527
+Maintainer: Karl Palsson <karlp@etactica.com>
+Architecture: x86_64
+Installed-Size: 133027
+Description:  libwebsockets (OpenSSL)

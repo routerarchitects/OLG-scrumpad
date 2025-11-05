@@ -1,0 +1,11 @@
+Package: kernel
+Version: 5.15.132-1-85f577fa2faf9eb08d6d9159c6d8a874
+Depends: libc
+Source: package/kernel/linux
+SourceName: kernel
+License: GPL-2.0
+Section: sys
+SourceDateEpoch: 1761103961
+Architecture: x86_64
+Installed-Size: 97
+Description:  Virtual kernel package

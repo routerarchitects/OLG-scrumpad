@@ -1,0 +1,13 @@
+Package: igmpproxy
+Version: 0.4-1
+Depends: libc
+Source: feeds/packages/net/igmpproxy
+SourceName: igmpproxy
+License: GPL-2.0+
+Section: net
+SourceDateEpoch: 1761088275
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: x86_64
+Installed-Size: 18507
+Description:  IGMPproxy is a simple dynamic Multicast Routing Daemon using
+ only IGMP signalling (Internet Group Management Protocol).

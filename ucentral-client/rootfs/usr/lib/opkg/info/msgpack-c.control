@@ -1,0 +1,17 @@
+Package: msgpack-c
+Version: 6.0.0-1
+Depends: libc
+Source: feeds/packages/libs/msgpack-c
+SourceName: msgpack-c
+License: BSL-1.0
+LicenseFiles: COPYING LICENSE_1_0.txt
+Section: lib
+SourceDateEpoch: 1761088275
+Maintainer: Tianling Shen <cnsztl@immortalwrt.org>
+Architecture: x86_64
+Installed-Size: 9300
+Description:  MessagePack is an efficient binary serialization format, which lets
+ you exchange data among multiple languages like JSON, except that
+ it's faster and smaller. Small integers are encoded into a single
+ byte and short strings require only one extra byte in addition to
+ the strings themselves.

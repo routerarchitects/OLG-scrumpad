@@ -1,0 +1,12 @@
+Package: ucentral-schema
+Version: 2024-04-26-83218cf4-1
+Depends: libc, ucode-mod-nl80211, ucode-mod-rtnl, ucode-mod-log
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/ucentral/ucentral-schema
+SourceName: ucentral-schema
+License: BSD-3-Clause
+Section: ucentral
+SourceDateEpoch: 1718807572
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: x86_64
+Installed-Size: 155967
+Description:  OpenWrt uCentral schema

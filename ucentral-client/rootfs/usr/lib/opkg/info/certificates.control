@@ -1,0 +1,12 @@
+Package: certificates
+Version: 1
+Depends: libc
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/tip/certificates
+SourceName: certificates
+License: BSD-3-Clause
+Section: ucentral
+SourceDateEpoch: 1717737749
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: x86_64
+Installed-Size: 1591
+Description:  TIP DigiCer certificate store

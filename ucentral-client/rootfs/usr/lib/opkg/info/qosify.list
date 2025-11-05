@@ -1,0 +1,8 @@
+/etc/config/qosify
+/lib/bpf/qosify-bpf.o
+/etc/hotplug.d/net/10-qosify
+/etc/qosify/00-defaults.conf
+/usr/sbin/qosify-status
+/etc/hotplug.d/iface/10-qosify
+/usr/sbin/qosify
+/etc/init.d/qosify

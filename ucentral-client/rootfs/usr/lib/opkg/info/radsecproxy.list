@@ -1,0 +1,3 @@
+/etc/init.d/radsecproxy
+/usr/sbin/radsecproxy
+/etc/config/radsecproxy

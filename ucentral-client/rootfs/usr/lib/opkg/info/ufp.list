@@ -1,0 +1,8 @@
+/lib/upgrade/keep.d/ufp
+/etc/init.d/ufp
+/usr/share/ufp/plugin_mdns.uc
+/usr/share/ufp/plugin_dhcp.uc
+/usr/share/ufp/devices.bin
+/usr/sbin/ufpd
+/usr/share/ufp/plugin_wifi.uc
+/usr/lib/ucode/uht.so

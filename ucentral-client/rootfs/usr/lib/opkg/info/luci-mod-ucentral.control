@@ -1,0 +1,11 @@
+Package: luci-mod-ucentral
+Version: git-23.271.46327-1841c74
+Depends: libc, luci-base
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/tip/luci/luci-mod-ucentral
+SourceName: luci-mod-ucentral
+License: Apache-2.0
+Section: luci
+SourceDateEpoch: 1695905527
+Architecture: all
+Installed-Size: 6863
+Description:  LuCI uCentral Configuration

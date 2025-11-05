@@ -1,0 +1,12 @@
+Package: udnssnoop
+Version: 2021-04-12-67e1e5f0-1
+Depends: libc, libubox20240329, libubus20230605
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/ucentral/udnssnoop
+SourceName: udnssnoop
+License: GPL-2.0
+Section: net
+SourceDateEpoch: 1646152612
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: x86_64
+Installed-Size: 4057
+Description:  DNS Snooping Daemon

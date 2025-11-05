@@ -1,0 +1,5 @@
+/lib/modules/5.15.132/lzo-rle.ko
+/etc/modules.d/lib-lzo
+/lib/modules/5.15.132/lzo.ko
+/lib/modules/5.15.132/lzo_compress.ko
+/lib/modules/5.15.132/lzo_decompress.ko

@@ -1,0 +1,10 @@
+/www/luci-static/resources/tools/ucentral.js
+/sbin/certupdate
+/www/luci-static/resources/view/ucentral/system.js
+/www/luci-static/resources/view/ucentral/status.js
+/sbin/profileupdate
+/www/luci-static/resources/view/ucentral/settings.js
+/usr/share/rpcd/acl.d/luci-mod-ucentral.json
+/www/luci-static/resources/view/ucentral/uplink.js
+/sbin/diagnostic-bundle
+/usr/share/luci/menu.d/luci-mod-ucentral.json

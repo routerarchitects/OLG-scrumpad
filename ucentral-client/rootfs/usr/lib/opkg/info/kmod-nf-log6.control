@@ -1,0 +1,11 @@
+Package: kmod-nf-log6
+Version: 5.15.132-1
+Depends: kernel (=5.15.132-1-85f577fa2faf9eb08d6d9159c6d8a874), kmod-nf-log
+Source: package/kernel/linux
+SourceName: kmod-nf-log6
+License: GPL-2.0
+Section: kernel
+SourceDateEpoch: 1761103961
+Architecture: x86_64
+Installed-Size: 97
+Description:  Netfilter IPV6 Logging

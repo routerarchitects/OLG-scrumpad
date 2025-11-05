@@ -22,6 +22,8 @@ OLG-scrumpad
 ├── README.md
 ├── ucentral-client # uCentral client for OLG
 │   └── README.md
+│   └── Dockerfile # Dockerfile to create docker image of ucentral-client from rootfs
+│   └── rootfs/ # Contains the ucentral-client specific files from which docker image is created
 └── vyos # VyOS Gateway for OLG
     ├── README.md
     └── vyos_config # The host volume required to mount in VyOS container

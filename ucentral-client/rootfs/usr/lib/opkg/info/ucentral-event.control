@@ -1,0 +1,12 @@
+Package: ucentral-event
+Version: 1
+Depends: libc
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/ucentral/ucentral-event
+SourceName: ucentral-event
+License: BSD-3-Clause
+Section: ucentral
+SourceDateEpoch: 1712765093
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: x86_64
+Installed-Size: 5083
+Description:  uCentral event gathering daemon

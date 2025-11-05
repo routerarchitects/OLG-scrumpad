@@ -1,0 +1,5 @@
+/etc/config/udevstats
+/etc/init.d/udevstats
+/lib/bpf/udevstats.o
+/etc/hotplug.d/net/10-udevstats
+/usr/sbin/udevstats

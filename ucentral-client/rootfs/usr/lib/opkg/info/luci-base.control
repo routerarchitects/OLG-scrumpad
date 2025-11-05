@@ -1,0 +1,12 @@
+Package: luci-base
+Version: git-25.222.75657-7ce34fe
+Depends: libc, rpcd, rpcd-mod-file, rpcd-mod-luci, rpcd-mod-ucode, cgi-io, ucode, ucode-mod-fs, ucode-mod-uci, ucode-mod-ubus, ucode-mod-math, ucode-mod-html, liblucihttp-ucode
+Source: feeds/luci/modules/luci-base
+SourceName: luci-base
+License: MIT
+Section: luci
+SourceDateEpoch: 1754859657
+Maintainer: OpenWrt LuCI community
+Architecture: x86_64
+Installed-Size: 125354
+Description:  LuCI core runtime

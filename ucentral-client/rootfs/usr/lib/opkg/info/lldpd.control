@@ -1,0 +1,19 @@
+Package: lldpd
+Version: 1.0.5-1
+Depends: libc, libcap, libevent2-7
+Source: package/network/services/lldpd
+SourceName: lldpd
+License: ISC
+Section: net
+Require-User: lldp=121:lldp=129
+SourceDateEpoch: 1761103960
+CPE-ID: cpe:/a:lldpd_project:lldpd
+Maintainer: Stijn Tintel <stijn@linux-ipv6.be>
+Architecture: x86_64
+Installed-Size: 127922
+Description:  LLDP (Link Layer Discovery Protocol) is an industry standard protocol designed
+ to supplant proprietary Link-Layer protocols such as
+ Extreme's EDP (Extreme Discovery Protocol) and
+ CDP (Cisco Discovery Protocol).
+ The goal of LLDP is to provide an inter-vendor compatible mechanism to deliver
+ Link-Layer notifications to adjacent network devices.

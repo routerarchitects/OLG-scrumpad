@@ -1,0 +1,12 @@
+Package: udhcprelay
+Version: 1
+Depends: libc, libubox20240329, libubus20230605, kmod-ifb, tc, kmod-sched
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/ucentral/udhcprelay
+SourceName: udhcprelay
+License: GPL-2.0
+Section: net
+SourceDateEpoch: 1693490914
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: x86_64
+Installed-Size: 10605
+Description:  DHCP Relay Daemon

@@ -1,0 +1,11 @@
+Package: libradcli
+Version: 1.3.0-1
+Depends: libc, libnettle8
+Source: feeds/packages/libs/libradcli
+SourceName: libradcli
+Section: libs
+SourceDateEpoch: 1761088275
+Maintainer: Nikos Mavrogiannopoulos <nmav@gnutls.org>
+Architecture: x86_64
+Installed-Size: 23203
+Description:  A library for radius clients

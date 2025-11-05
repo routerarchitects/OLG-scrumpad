@@ -1,0 +1,13 @@
+Package: gre
+Version: 13
+Depends: libc, kmod-gre, kmod-gre6, resolveip
+Provides: grev4, grev6
+Source: package/network/config/gre
+SourceName: gre
+License: GPL-2.0
+Section: net
+SourceDateEpoch: 1615665535
+Maintainer: Hans Dedecker <dedeckeh@gmail.com>
+Architecture: all
+Installed-Size: 1572
+Description:  Generic Routing Encapsulation config support (IPv4 and IPv6) in /etc/config/network.

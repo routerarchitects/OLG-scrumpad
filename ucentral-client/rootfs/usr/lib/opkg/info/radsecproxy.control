@@ -1,0 +1,14 @@
+Package: radsecproxy
+Version: 1.9.1-1
+Depends: libc, libopenssl3, libpthread, libnettle8
+Source: feeds/packages/net/radsecproxy
+SourceName: radsecproxy
+License: BSD-3-CLAUSE
+LicenseFiles: LICENSE
+Section: net
+SourceDateEpoch: 1761088275
+CPE-ID: cpe:/a:uninett:radsecproxy
+Maintainer: Toke Høiland-Jørgensen <toke@toke.dk>
+Architecture: x86_64
+Installed-Size: 62613
+Description:  A generic radius proxy for UDP/TLS (RadSec)

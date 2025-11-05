@@ -1,0 +1,4 @@
+/usr/sbin/ucentral-pstore
+/etc/config/state
+/usr/sbin/ucentral-state
+/etc/init.d/ucentral-state

@@ -1,0 +1,2 @@
+/etc/ssl/modules.cnf.d/legacy.cnf
+/usr/lib/ossl-modules/legacy.so

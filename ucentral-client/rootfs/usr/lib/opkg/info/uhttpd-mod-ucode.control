@@ -1,0 +1,12 @@
+Package: uhttpd-mod-ucode
+Version: 2023-06-25-34a8a74d-1
+Depends: libc, uhttpd, libucode20230711
+Source: package/network/services/uhttpd
+SourceName: uhttpd-mod-ucode
+License: ISC
+Section: net
+SourceDateEpoch: 1687726250
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: x86_64
+Installed-Size: 4480
+Description:  The ucode plugin adds a CGI-like ucode runtime interface to uHTTPd.

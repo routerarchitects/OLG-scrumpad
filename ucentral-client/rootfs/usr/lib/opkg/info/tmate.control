@@ -1,0 +1,13 @@
+Package: tmate
+Version: 2.4.0-2
+Depends: libc, libevent2-7, libncurses6, libpthread, libssh, msgpack-c, terminfo
+Source: feeds/packages/net/tmate
+SourceName: tmate
+License: ISC
+LicenseFiles: LICENSE
+Section: net
+SourceDateEpoch: 1761088275
+Maintainer: Tianling Shen <cnsztl@immortalwrt.org>
+Architecture: x86_64
+Installed-Size: 263739
+Description:  Tmate is a fork of tmux. It provides an instant pairing solution.

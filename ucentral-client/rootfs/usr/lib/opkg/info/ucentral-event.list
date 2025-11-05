@@ -1,0 +1,6 @@
+/etc/events.json
+/etc/config/event
+/usr/sbin/ucentral-wifiscan
+/usr/sbin/ucentral-event
+/etc/init.d/ucentral-event
+/etc/init.d/ucentral-wifiscan

@@ -1,0 +1,2 @@
+/etc/modules.d/35-amd-xgbe
+/lib/modules/5.15.132/amd-xgbe.ko

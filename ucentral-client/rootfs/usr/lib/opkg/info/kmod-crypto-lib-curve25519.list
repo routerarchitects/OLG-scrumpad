@@ -1,0 +1,3 @@
+/lib/modules/5.15.132/libcurve25519.ko
+/lib/modules/5.15.132/libcurve25519-generic.ko
+/lib/modules/5.15.132/curve25519-x86_64.ko

@@ -1,0 +1,17 @@
+Package: libnetfilter-queue1
+Version: 1.0.5-4
+Depends: libc, libmnl0, libnfnetlink0
+Provides: libnetfilter-queue
+Source: feeds/packages/libs/libnetfilter-queue
+SourceName: libnetfilter-queue
+License: GPL-2.0-or-later
+LicenseFiles: COPYING
+Section: libs
+SourceDateEpoch: 1761088275
+ABIVersion: 1
+CPE-ID: cpe:/a:netfilter:libnetfilter_queue
+Architecture: x86_64
+Installed-Size: 10564
+Description:  libnetfilter_queue is a userspace library providing a programming
+ interface (API) to packets that have been queued by the kernel
+ packet filter.

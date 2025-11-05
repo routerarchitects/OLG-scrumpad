@@ -1,0 +1,7 @@
+/lib/modules/5.15.132/batman-adv.ko
+/lib/upgrade/keep.d/kmod-batman-adv
+/etc/uci-defaults/99-migrate-batadv_hardif
+/lib/netifd/proto/batadv_vlan.sh
+/lib/netifd/proto/batadv_hardif.sh
+/lib/netifd/proto/batadv.sh
+/etc/modules.d/batman-adv

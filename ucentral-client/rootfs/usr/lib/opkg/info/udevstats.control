@@ -1,0 +1,12 @@
+Package: udevstats
+Version: 1
+Depends: libc, ucode, ucode-mod-ubus, ucode-mod-bpf, kmod-sched-bpf, ucode-mod-struct
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/ucentral/udevstats
+SourceName: udevstats
+License: GPL-2.0
+Section: utils
+SourceDateEpoch: 1712937336
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: x86_64
+Installed-Size: 5083
+Description:  Device statistics module

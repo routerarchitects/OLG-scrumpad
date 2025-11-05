@@ -1,0 +1,12 @@
+Package: vxlan
+Version: 7
+Depends: libc, kmod-vxlan
+Source: package/network/config/vxlan
+SourceName: vxlan
+License: GPL-2.0
+Section: net
+SourceDateEpoch: 1609412001
+Maintainer: Matthias Schiffer <mschiffer@universe-factory.net>
+Architecture: all
+Installed-Size: 1453
+Description:  Virtual eXtensible LAN config support in /etc/config/network.

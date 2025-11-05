@@ -1,0 +1,16 @@
+/lib/modules/5.15.132/em_nbyte.ko
+/lib/modules/5.15.132/act_csum.ko
+/etc/modules.d/73-sched
+/lib/modules/5.15.132/sch_codel.ko
+/lib/modules/5.15.132/sch_teql.ko
+/lib/modules/5.15.132/em_cmp.ko
+/lib/modules/5.15.132/sch_multiq.ko
+/lib/modules/5.15.132/sch_dsmark.ko
+/lib/modules/5.15.132/sch_gred.ko
+/lib/modules/5.15.132/act_pedit.ko
+/etc/hotplug.d/iface/15-teql
+/lib/modules/5.15.132/em_text.ko
+/lib/modules/5.15.132/sch_sfq.ko
+/lib/modules/5.15.132/sch_fq.ko
+/lib/modules/5.15.132/act_simple.ko
+/lib/modules/5.15.132/em_meta.ko

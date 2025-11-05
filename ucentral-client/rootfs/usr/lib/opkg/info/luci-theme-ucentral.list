@@ -1,0 +1,8 @@
+/www/luci-static/ucentral/spinner.svg
+/www/luci-static/ucentral/logo.svg
+/www/luci-static/ucentral/GalanoGrotesqueW00-Regular.woff2
+/etc/uci-defaults/30_luci-theme-ucentral
+/www/luci-static/ucentral/cascade.css
+/usr/lib/lua/luci/view/themes/ucentral/header.htm
+/usr/lib/lua/luci/view/themes/ucentral/footer.htm
+/www/luci-static/resources/menu-ucentral.js

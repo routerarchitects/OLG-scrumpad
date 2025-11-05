@@ -1,0 +1,14 @@
+Package: bind-dig
+Version: 9.18.37-2
+Depends: libc, bind-libs
+Source: feeds/packages/net/bind
+SourceName: bind-dig
+License: MPL-2.0
+LicenseFiles: LICENSE
+Section: net
+SourceDateEpoch: 1761088275
+CPE-ID: cpe:/a:isc:bind
+Maintainer: Noah Meyerhans <frodo@morgul.net>
+Architecture: x86_64
+Installed-Size: 51114
+Description:  bind DNS excavation tool

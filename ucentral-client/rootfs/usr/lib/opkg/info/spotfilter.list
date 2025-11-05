@@ -1,0 +1,4 @@
+/usr/sbin/spotfilter
+/etc/hotplug.d/net/10-spotfilter
+/etc/init.d/spotfilter
+/lib/bpf/spotfilter-bpf.o

@@ -1,0 +1,12 @@
+Package: procd-ujail
+Version: 2023-06-25-2db83655-2
+Depends: libc, libubox20240329, libubus20230605, libuci20130104, libblobmsg-json20240329
+Source: package/system/procd
+SourceName: procd-ujail
+License: GPL-2.0
+Section: base
+SourceDateEpoch: 1761103959
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: x86_64
+Installed-Size: 42618
+Description:  OpenWrt process jail helper

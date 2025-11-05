@@ -1,0 +1,12 @@
+Package: ugps
+Version: 2021-07-19-a8171a07-2
+Depends: libc, libubox20240329, libubus20230605
+Source: package/utils/ugps
+SourceName: ugps
+License: GPL-2.0+
+Section: utils
+SourceDateEpoch: 1761103960
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: x86_64
+Installed-Size: 5907
+Description:  OpenWrt GPS Daemon

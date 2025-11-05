@@ -1,0 +1,3 @@
+/usr/sbin/atfpolicy
+/etc/config/atfpolicy
+/etc/init.d/atfpolicy

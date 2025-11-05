@@ -1,0 +1,4 @@
+/etc/modules-boot.d/30-fs-vfat
+/etc/modules.d/30-fs-vfat
+/lib/modules/5.15.132/fat.ko
+/lib/modules/5.15.132/vfat.ko

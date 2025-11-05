@@ -1,0 +1,13 @@
+/usr/share/rrmd/phy.uc
+/usr/share/rrmd/neighbor.uc
+/usr/share/rrmd/command.uc
+/usr/share/rrmd/config.uc
+/usr/share/rrmd/event.uc
+/usr/share/rrmd/policy.uc
+/etc/init.d/rrmd
+/usr/share/rrmd/policy_snr.uc
+/etc/config/rrmd
+/usr/bin/rrmd.uc
+/usr/share/rrmd/local.uc
+/usr/share/rrmd/scan.uc
+/usr/share/rrmd/station.uc

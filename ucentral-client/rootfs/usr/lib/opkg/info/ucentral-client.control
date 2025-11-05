@@ -1,0 +1,12 @@
+Package: ucentral-client
+Version: 2022-06-22-815ad097-1
+Depends: libc, ucode, ucode-mod-fs, ucode-mod-ubus, ucode-mod-uci, ucode-mod-math, ucode-mod-resolv, ucode-mod-uloop, libubox20240329, libwebsockets-openssl, libblobmsg-json20240329, libubus20230605
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/ucentral/ucentral-client
+SourceName: ucentral-client
+License: BSD-3-Clause
+Section: ucentral
+SourceDateEpoch: 1717150384
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: x86_64
+Installed-Size: 18863
+Description:  OpenWrt uCentral websocket client

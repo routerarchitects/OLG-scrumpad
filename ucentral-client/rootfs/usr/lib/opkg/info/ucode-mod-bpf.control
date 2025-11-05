@@ -1,0 +1,16 @@
+Package: ucode-mod-bpf
+Version: 1
+Depends: libc, libucode20230711, libbpf1
+Source: package/utils/ucode-mod-bpf
+SourceName: ucode-mod-bpf
+License: ISC
+Section: utils
+SourceDateEpoch: 1673260520
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: x86_64
+Installed-Size: 7647
+Description:  The bpf plugin provides functionality for loading and interacting with
+ eBPF modules.
+ 
+ It allows loading full modules and pinned maps/programs and supports
+ interacting with maps and attaching programs as tc classifiers.

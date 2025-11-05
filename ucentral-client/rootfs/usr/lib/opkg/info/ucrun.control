@@ -1,0 +1,13 @@
+Package: ucrun
+Version: 2022-02-19-5be6abeb-1
+Depends: libc, libubox20240329, ucode, ucode-mod-uci, ucode-mod-ubus, ucode-mod-fs
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/ucentral/ucrun
+SourceName: ucrun
+License: GPL-2.0-only
+LicenseFiles: GPL
+Section: utils
+SourceDateEpoch: 1668408440
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: x86_64
+Installed-Size: 6733
+Description:  uCode main-loop daemon

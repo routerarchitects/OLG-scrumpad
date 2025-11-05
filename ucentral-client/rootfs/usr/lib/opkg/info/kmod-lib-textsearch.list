@@ -1,0 +1,4 @@
+/lib/modules/5.15.132/ts_fsm.ko
+/etc/modules.d/lib-textsearch
+/lib/modules/5.15.132/ts_kmp.ko
+/lib/modules/5.15.132/ts_bm.ko

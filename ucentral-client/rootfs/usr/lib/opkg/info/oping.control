@@ -1,0 +1,13 @@
+Package: oping
+Version: 1.10.0-3
+Depends: libc, liboping
+Source: feeds/packages/libs/liboping
+SourceName: oping
+License: LGPL-2.1-or-later
+Section: net
+SourceDateEpoch: 1761088275
+CPE-ID: cpe:/a:noping:liboping
+Maintainer: Jo-Philipp Wich <jo@mein.io>
+Architecture: x86_64
+Installed-Size: 7731
+Description:  Send ICMP echo request to network hosts

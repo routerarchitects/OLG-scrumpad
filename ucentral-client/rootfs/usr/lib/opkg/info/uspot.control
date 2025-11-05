@@ -1,0 +1,12 @@
+Package: uspot
+Version: 1
+Depends: libc, spotfilter, uhttpd-mod-ucode, libradcli, iptables-mod-conntrack-extra, conntrack, ucode-mod-math, ucode-mod-nl80211, ucode-mod-rtnl, ucode-mod-uloop, ratelimit
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/ucentral/uspot
+SourceName: uspot
+License: GPL-2.0
+Section: net
+SourceDateEpoch: 1718033016
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: x86_64
+Installed-Size: 46861
+Description:  hotspot daemon

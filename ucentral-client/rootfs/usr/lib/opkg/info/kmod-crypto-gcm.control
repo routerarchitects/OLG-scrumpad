@@ -1,0 +1,11 @@
+Package: kmod-crypto-gcm
+Version: 5.15.132-1
+Depends: kernel (=5.15.132-1-85f577fa2faf9eb08d6d9159c6d8a874), kmod-crypto-ctr, kmod-crypto-ghash, kmod-crypto-null
+Source: package/kernel/linux
+SourceName: kmod-crypto-gcm
+License: GPL-2.0
+Section: kernel
+SourceDateEpoch: 1761103961
+Architecture: x86_64
+Installed-Size: 185
+Description:  GCM/GMAC CryptoAPI module

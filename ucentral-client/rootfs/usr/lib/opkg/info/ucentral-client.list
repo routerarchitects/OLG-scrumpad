@@ -1,0 +1,6 @@
+/etc/config/ucentral
+/usr/sbin/ucentral
+/etc/config/ustats
+/etc/ucentral/version.json
+/etc/uci-defaults/zzz-ucentral
+/etc/init.d/ucentral

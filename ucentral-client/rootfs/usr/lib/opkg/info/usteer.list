@@ -1,0 +1,5 @@
+/sbin/usteerd
+/sbin/ap-monitor
+/usr/libexec/uchannel.uc
+/etc/init.d/usteer
+/etc/config/usteer

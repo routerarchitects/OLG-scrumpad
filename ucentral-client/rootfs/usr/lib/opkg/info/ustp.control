@@ -1,0 +1,12 @@
+Package: ustp
+Version: 2021-08-27-25555611-1
+Depends: libc, libubox20240329, libubus20230605
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/ucentral/ustp
+SourceName: ustp
+License: GPL-2.0
+Section: net
+SourceDateEpoch: 1630299253
+Maintainer: Felix Fietkau <nbd@nbd.name
+Architecture: x86_64
+Installed-Size: 24083
+Description:  OpenWrt STP/RSTP daemon

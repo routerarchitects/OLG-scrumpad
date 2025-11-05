@@ -1,0 +1,14 @@
+Package: rtty-openssl
+Version: 7.1.4-1
+Depends: libc, libev, libopenssl3
+Provides: rtty
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/ucentral/rtty
+SourceName: rtty-openssl
+License: MIT
+LicenseFiles: LICENSE
+Section: utils
+SourceDateEpoch: 1678870569
+Maintainer: Jianhui Zhao <zhaojh329@gmail.com>
+Architecture: x86_64
+Installed-Size: 19059
+Description:  Access your terminals from anywhere via the web

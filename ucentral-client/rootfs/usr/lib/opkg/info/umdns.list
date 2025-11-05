@@ -1,0 +1,4 @@
+/etc/config/umdns
+/usr/sbin/umdns
+/etc/init.d/umdns
+/etc/seccomp/umdns.json

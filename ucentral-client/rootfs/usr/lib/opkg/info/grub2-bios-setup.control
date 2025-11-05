@@ -1,0 +1,12 @@
+Package: grub2-bios-setup
+Version: 2.06-5
+Depends: libc
+Source: package/boot/grub2
+SourceName: grub2-bios-setup
+License: GPL-3.0-or-later
+Section: utils
+SourceDateEpoch: 1686658471
+CPE-ID: cpe:/a:gnu:grub2
+Architecture: x86_64
+Installed-Size: 356611
+Description:  Set up images to bootable.

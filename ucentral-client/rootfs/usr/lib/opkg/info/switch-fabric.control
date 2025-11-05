@@ -1,0 +1,12 @@
+Package: switch-fabric
+Version: 1
+Depends: libc
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/ucentral/switch-fabric
+SourceName: switch-fabric
+License: BSD-3-Clause
+Section: ucentral
+SourceDateEpoch: 1699956499
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: x86_64
+Installed-Size: 622
+Description:  Allow configuring HW specific switch fabric features.

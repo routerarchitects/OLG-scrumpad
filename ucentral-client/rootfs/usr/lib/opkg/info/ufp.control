@@ -1,0 +1,12 @@
+Package: ufp
+Version: 1
+Depends: libc, ucode, ucode-mod-fs, ucode-mod-struct, libubox20240329
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/ucentral/ufp
+SourceName: ufp
+License: GPL-2.0
+Section: utils
+SourceDateEpoch: 1717150366
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: x86_64
+Installed-Size: 17322
+Description:  Device fingerprinting daemon

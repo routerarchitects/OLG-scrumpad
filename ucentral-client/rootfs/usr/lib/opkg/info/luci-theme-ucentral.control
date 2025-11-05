@@ -1,0 +1,10 @@
+Package: luci-theme-ucentral
+Version: git-23.271.46227-2c6cc0d
+Depends: libc, luci-lua-runtime
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/tip/luci/luci-theme-ucentral
+SourceName: luci-theme-ucentral
+Section: luci
+SourceDateEpoch: 1695905427
+Architecture: all
+Installed-Size: 43907
+Description:  LuCI theme for uCentral

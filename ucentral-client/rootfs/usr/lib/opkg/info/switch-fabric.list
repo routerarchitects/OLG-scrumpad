@@ -1,0 +1,3 @@
+/usr/libexec/switch.sh
+/etc/init.d/switch-fabric
+/etc/config/switch

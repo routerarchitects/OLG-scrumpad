@@ -1,0 +1,12 @@
+Package: grub2
+Version: 2.06-5
+Depends: libc
+Source: package/boot/grub2
+SourceName: grub2
+License: GPL-3.0-or-later
+Section: boot
+SourceDateEpoch: 1686658471
+CPE-ID: cpe:/a:gnu:grub2
+Architecture: x86_64
+Installed-Size: 96
+Description:  GRand Unified Bootloader (pc)

@@ -1,0 +1,4 @@
+/lib/bpf/bridger-bpf.o
+/etc/config/bridger
+/etc/init.d/bridger
+/usr/sbin/bridger

@@ -1,0 +1,10 @@
+Package: usteer
+Version: 2021-04-19-f42bf296-1
+Depends: libc, libubox20240329, libubus20230605, libblobmsg-json20240329, libnl-tiny1, libpcap1
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/ucentral/usteer
+SourceName: usteer
+Section: net
+SourceDateEpoch: 1651737035
+Architecture: x86_64
+Installed-Size: 36102
+Description:  OpenWrt AP roaming assist daemon

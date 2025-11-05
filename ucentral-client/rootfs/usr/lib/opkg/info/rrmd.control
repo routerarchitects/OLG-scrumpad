@@ -1,0 +1,12 @@
+Package: rrmd
+Version: 1
+Depends: libc, ucrun
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/ucentral/rrmd
+SourceName: rrmd
+License: ISC
+Section: utils
+SourceDateEpoch: 1709188093
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: x86_64
+Installed-Size: 10026
+Description:  radio resource management

@@ -1,0 +1,3 @@
+/lib/modules/5.15.132/cls_bpf.ko
+/lib/modules/5.15.132/act_bpf.ko
+/etc/modules.d/72-sched-bpf

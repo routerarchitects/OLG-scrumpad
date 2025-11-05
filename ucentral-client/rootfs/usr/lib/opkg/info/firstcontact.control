@@ -1,0 +1,12 @@
+Package: firstcontact
+Version: 1
+Depends: libc, libubox20240329, libcurl4, libopenssl3, certificates
+Source: /BUILD_WORKSPACE/OPENWIFI/OPENWIFI_WLANAP/ra-openwifi-wlan-ap/feeds/tip/firstcontact
+SourceName: firstcontact
+License: BSD-3-Clause
+Section: ucentral
+SourceDateEpoch: 1699337164
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: x86_64
+Installed-Size: 3238
+Description:  TIP DigiCert firstcontact
