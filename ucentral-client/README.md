@@ -12,7 +12,7 @@ cd WORKSPACE
 mkdir OPENWIFI_WLANAP
 cd OPENWIFI_WLANAP
 git clone https://github.com/routerarchitects/ra-openwifi-wlan-ap.git
-git checkout -b release/v3.1.0
+git checkout release/v3.1.0
 ./build.sh x64_vm
 ```
 
