@@ -1,7 +1,7 @@
 
 // ---------- helper functions ----------
-function insert_space(n){ let s=""; for (let i=0;i<n;i++) s+=" "; return s; }
-function writeln(lines, ind, txt){ push(lines, insert_space(ind)+txt); }
+function indent(n){ let s=""; for (let i=0;i<n;i++) s+=" "; return s; }
+function writeln(lines, ind, txt){ push(lines, indent(ind)+txt); }
 function find_key_in_object(o,k){ if (type(o)!="object") return false; for (let kk in keys(o)) if (kk==k) return true; return false; }
 
 function split_cidr(cidr){
@@ -24,7 +24,7 @@ function add_host(ip, add){
     let n=tuple_to_int(t); n=(n+add)&0xFFFFFFFF;
     return tuple_to_ip(int_to_tuple(n));
 }
-function network_base(cidr){
+function derive_network_base(cidr){
     let parts=split_cidr(cidr); if(!parts) return null;
     let ipt=ip_to_tuple(parts[0]); if(!ipt) return null;
     let p=int(parts[1]); let mask=prefix_to_mask(p);
@@ -54,37 +54,38 @@ function json_config_ctx(){
 }
 function next_lan_ifname(ctx){ return sprintf("eth%d", 1 + length(ctx.lans)); }
 
-function prepare_json_config_ctx(value){
+function prepare_json_config_ctx(uCentral_config){
     let ctx = json_config_ctx();
 
-    if (type(value.interfaces)=="array"){
-        for (let i=0;i<length(value.interfaces);i++){
-            let iface = value.interfaces[i];
-            if (iface.role == "upstream" && !ctx.wan.present){
-                let ip4 = iface.ipv4;
+    if (type(uCentral_config.interfaces) == "array") {
+        for (let i = 0; i < length(uCentral_config.interfaces); i++) {
+            let iface = uCentral_config.interfaces[i];
+            let ip4   = iface.ipv4;
+
+            /* Detect WAN (upstream) */
+            if (iface.role == "upstream" && !ctx.wan.present) {
                 ctx.wan.present    = true;
                 ctx.wan.name       = iface.name || "WAN";
-                ctx.wan.addressing = (type(ip4)=="object") ? ip4.addressing : null;
+                ctx.wan.addressing = (type(ip4) == "object") ? ip4.addressing : null;
             }
-        }
-        for (let i=0;i<length(value.interfaces);i++){
-            let iface = value.interfaces[i];
-            if (iface.role != "downstream") continue;
 
-            let ip4 = iface.ipv4;
-            let lan = {
-                ifname:     next_lan_ifname(ctx),
-                name:       iface.name || sprintf("LAN%d", 1 + length(ctx.lans)),
-                addressing: (type(ip4)=="object") ? ip4.addressing : null,
-                cidr:       (type(ip4)=="object" && find_key_in_object(ip4,"subnet")) ? ip4.subnet : null,
-                dhcp:       (type(ip4)=="object" && find_key_in_object(ip4,"dhcp"))   ? ip4.dhcp   : null
-            };
-            push(ctx.lans, lan);
+            /* Collect LANs (downstream) */
+            if (iface.role == "downstream") {
+                let lan = {
+                    ifname:     next_lan_ifname(ctx),
+                    name:       iface.name || sprintf("LAN%d", 1 + length(ctx.lans)),
+                    addressing: (type(ip4) == "object") ? ip4.addressing : null,
+                    cidr:       (type(ip4) == "object" && find_key_in_object(ip4, "subnet")) ? ip4.subnet : null,
+                    dhcp:       (type(ip4) == "object" && find_key_in_object(ip4, "dhcp"))   ? ip4.dhcp   : null
+                };
+                push(ctx.lans, lan);
+            }
         }
     }
 
-    if (type(value.services)=="object" && type(value.services.ssh)=="object" && find_key_in_object(value.services.ssh,"port"))
-        ctx.svc.ssh_port = int(value.services.ssh.port);
+
+    if (type(uCentral_config.services)=="object" && type(uCentral_config.services.ssh)=="object" && find_key_in_object(uCentral_config.services.ssh,"port"))
+        ctx.svc.ssh_port = int(uCentral_config.services.ssh.port);
 
     return ctx;
 }
@@ -123,7 +124,7 @@ function set_vyos_nat(lines, ctx){
     for (let i=0;i<length(ctx.lans);i++){
         let lan = ctx.lans[i];
         if (lan.addressing == "static" && lan.cidr){
-            let net = network_base(lan.cidr);
+            let net = derive_network_base(lan.cidr);
             if (net) push(nets, net);
         }
     }
@@ -156,7 +157,7 @@ function set_vyos_service(lines, ctx){
     for (let i=0;i<length(ctx.lans);i++){
         let lan = ctx.lans[i];
         if (lan.addressing == "static" && lan.cidr){
-            let net = network_base(lan.cidr); if (!net) continue;
+            let net = derive_network_base(lan.cidr); if (!net) continue;
             push(slans, {
                 name:    lan.name,
                 lan_ip:  host_ip(lan.cidr),
@@ -242,9 +243,11 @@ function set_vyos_service(lines, ctx){
     writeln(lines, 0, "}");
 }
 
-function render_vyos_from_json(value){
-    let json_conf_ctx = prepare_json_config_ctx(value);
+function render_vyos_from_json(uCentral_config){
+    /* parse the ucentral config and update the internal structures */
+    let json_conf_ctx = prepare_json_config_ctx(uCentral_config);
     let vyos_text_config = [];
+    /* update interface section from internal format to vyos format */
     set_vyos_interfaces(vyos_text_config, json_conf_ctx);
     set_vyos_nat(vyos_text_config, json_conf_ctx);
     set_vyos_service(vyos_text_config, json_conf_ctx);
@@ -252,6 +255,6 @@ function render_vyos_from_json(value){
 }
 
 return {
-    convertvyos: (value, errors) => render_vyos_from_json(value)
+    convertvyos: (uCentral_config, errors) => render_vyos_from_json(uCentral_config)
 };
 

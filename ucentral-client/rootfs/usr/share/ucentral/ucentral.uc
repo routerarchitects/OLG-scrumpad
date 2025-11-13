@@ -17,7 +17,6 @@ let error = 0;
 
 inputfile.close();
 let logs = [];
-                                                                                   
 
 let args_path = "/etc/ucentral/vyos-info.json";
 let args = {};
@@ -48,10 +47,11 @@ try {
 	let state = schemareader.validate(inputjson, logs);
 	printf("Input Json is %s\n\n", inputjson);
 	let cli_text  = vyos.convertvyos(inputjson);
-	let scope = {                                                            
-        cli_text, op, host, key                                          
+	let scope = {
+	    cli_text, op, host, key
 	};
- 	let rc = include('vyos_api_caller.uc', scope);	
+	let rc = include('vyos_api_caller.uc', scope);
+	/* TODO: Return Handling to be done yet */
 	if(rc != 0){
 	    error = 0;
 	}
