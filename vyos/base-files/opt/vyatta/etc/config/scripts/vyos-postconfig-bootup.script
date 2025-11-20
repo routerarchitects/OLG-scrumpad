@@ -1,5 +1,19 @@
-#!/bin/sh
-# This script is executed at boot time after VyOS configuration is fully applied.
-# Any modifications required to work around unfixed bugs
-# or use services not available through the VyOS CLI system can be placed here.
+#!/bin/vbash
+source /opt/vyatta/etc/functions/script-template
 
+run /usr/bin/hostname vyos 2>> /tmp/route-errors.log || echo "hostname failed" >> /tmp/route-errors.log
+# flush ip assignment
+run /usr/sbin/ip addr flush dev eth0
+
+
+# load default configurations
+configure
+  load /opt/vyatta/etc/config/config.boot
+  commit
+exit
+
+
+# remove any existing route
+run /usr/sbin/ip route del default 2>> /tmp/route-errors.log || echo "del failed" >> /tmp/route-errors.log
+# flush ip assignment
+run /usr/sbin/ip addr flush dev eth1
