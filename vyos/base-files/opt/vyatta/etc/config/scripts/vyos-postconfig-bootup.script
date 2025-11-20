@@ -1,0 +1,19 @@
+#!/bin/vbash
+source /opt/vyatta/etc/functions/script-template
+
+run /usr/bin/hostname vyos 2>> /tmp/route-errors.log || echo "hostname failed" >> /tmp/route-errors.log
+# flush ip assignment
+run /usr/sbin/ip addr flush dev eth0
+
+
+# load default configurations
+configure
+  load /opt/vyatta/etc/config/config.boot
+  commit
+exit
+
+
+# remove any existing route
+run /usr/sbin/ip route del default 2>> /tmp/route-errors.log || echo "del failed" >> /tmp/route-errors.log
+# flush ip assignment
+run /usr/sbin/ip addr flush dev eth1
