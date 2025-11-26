@@ -1,38 +1,79 @@
-#!/usr/bin/ucode
-push(REQUIRE_SEARCH_PATH,
-        "/usr/lib/ucode/*.so",
-        "/usr/share/ucentral/*.uc");
+{%
+// Required arguments
+if (!key) {
+    fprintf(stderr, "Missing API key\n");
+    exit(2);
+}
+if (!host) {
+    fprintf(stderr, "Missing host\n");
+    exit(2);
+}
+if (!op) {
+    fprintf(stderr, "Missing op\n");
+    exit(2);
+}
 
-let fs = require("fs");
+// Determine endpoint and payload based on op
+let endpoint;
+let payloadObj = { op: op };
 
-if (!key) { fprintf(stderr, "Missing API key\n"); exit(2); }
-printf("CLI TEXT IS %s\n\n", cli_text);
-/* TODO: pass as container environment variable for load */
-let loadapi_payload_obj = { op: "load", file: "/opt/vyatta/etc/config/config.boot" };
-let loadapi_payload_str = sprintf("%J", loadapi_payload_obj);
-let api_payload_obj = { op: op, string: cli_text };
-let api_payload_str = sprintf("%J", api_payload_obj);
+if (op == "load" || op == "merge") {
+    endpoint = "/config-file";
+    if (op_arg.file) {
+        payloadObj.file = op_arg.file;
+    } else if (op_arg.string) {
+        payloadObj.string = op_arg.string;
+    } else {
+        fprintf(stderr, "Unsupported op_arg\n");
+        exit(2);
+    }
+}
+else if (op == "showConfig") {
+    endpoint = "/retrieve";
+    if (op_arg.path) {
+        payloadObj.path = op_arg.path;
+    } else {
+        // default: whole config
+        payloadObj.path = [];
+    }
+}
+else {
+    // unsupported op
+    fprintf(stderr, "Unsupported op: %s\n", op);
+    exit(3);
+}
+
+// Convert payload to JSON string
+let payloadStr = sprintf("%J", payloadObj);
+
+// Build the curl command
 function quoteForShell(s) {
-    if (s == null)
-        return "''";
+    if (s == null) return "''";
     let parts = split(s, "'");
     return "'" + join("'\"'\"'", parts) + "'";
 }
-let url = host + "/config-file";
-printf("url is %s\n",url);
-let api_load_op_cmd = sprintf(
-  "curl -skL --connect-timeout 3 -m 5 -X POST %s --form-string data=%s --form key=%s",
-  quoteForShell(url), quoteForShell(loadapi_payload_str), quoteForShell(key)
+
+let url = host + endpoint;
+
+let cmd = sprintf(
+    "curl -skL --connect-timeout 3 -m 5 -X POST %s " +
+    "--form-string data=%s --form key=%s",
+    quoteForShell(url),
+    quoteForShell(payloadStr),
+    quoteForShell(key)
 );
 
-printf("api_load_op_cmd is %s\n\n", api_load_op_cmd);
-system(api_load_op_cmd);
 
-let api_op_cmd = sprintf(
-  "curl -skL --connect-timeout 3 -m 5 -X POST %s --form-string data=%s --form key=%s",
-  quoteForShell(url), quoteForShell(api_payload_str), quoteForShell(key)
-);
+//let rc = system(cmd);
 
-printf("api_op_cmd is %s\n\n", api_op_cmd);
-let rc = system(api_op_cmd);
-return rc;
+let proc = fs.popen(cmd, "r");
+if (!proc) {
+        fprintf(stderr, "Failed to start curl\n");
+        return null;
+}
+
+let out = proc.read("all");
+proc.close();
+
+%}
+{{out}}

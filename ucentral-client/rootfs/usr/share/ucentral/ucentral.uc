@@ -6,7 +6,7 @@ push(REQUIRE_SEARCH_PATH,
 let schemareader = require("schemareader");
 let fs = require("fs");
 let ubus = require("ubus").connect();
-
+let vyos_config_gen = require("vyos_config_gen");
 let vyos = require("vyos_config_gen");
 
 let inputfile = fs.open(ARGV[0], "r");
@@ -17,6 +17,7 @@ let error = 0;
 
 inputfile.close();
 let logs = [];
+                                                                                   
 
 let args_path = "/etc/ucentral/vyos-info.json";
 let args = {};
@@ -45,13 +46,17 @@ try {
 		system(cmd);
 
 	let state = schemareader.validate(inputjson, logs);
-	printf("Input Json is %s\n\n", inputjson);
-	let cli_text  = vyos.convertvyos(inputjson);
-	let scope = {
-	    cli_text, op, host, key
+	printf("Input Json is %s\n\n", state);
+	let config = state;
+	let op_arg = { };    
+	op_arg.string  = vyos_config_gen.vyos_render(config);
+	printf("complete configuration is %s\n\n", op_arg.string);
+	op = "load";  
+	let scope = {                                                            
+        op_arg, op, host, key, fs                                          
 	};
-	let rc = include('vyos_api_caller.uc', scope);
-	/* TODO: Return Handling to be done yet */
+ 	let rc = render('vyos_api_caller.uc', scope);
+	printf("Final OUTPUT is %s\n\n\n", rc);	
 	if(rc != 0){
 	    error = 0;
 	}
