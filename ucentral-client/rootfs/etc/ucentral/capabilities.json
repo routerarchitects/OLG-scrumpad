@@ -1,7 +1,7 @@
 {
 	"secure-rtty": true,
-	"compatible": "acer-nitro-anv15-51",
-	"model": "Acer Nitro ANV15-51",
+	"compatible": "intel",
+	"model": "intel",
 	"version": {
 		"olg": {},
 		"schema": {}
