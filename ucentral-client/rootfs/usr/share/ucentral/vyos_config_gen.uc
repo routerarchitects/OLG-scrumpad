@@ -208,7 +208,9 @@ return {
 			convert_hours_to_seconds
 		});
 
-		return interfaces + "\n" + nat + "\n" + services + "\n" + pki + "\n" + system + "\n";
+		let vyos_version = render('vyos_version.uc');
+
+		return interfaces + "\n" + nat + "\n" + services + "\n" + pki + "\n" + system + "\n" + vyos_version + "\n";
 	}
 };
 
