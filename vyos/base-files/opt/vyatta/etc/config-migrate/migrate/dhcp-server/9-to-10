@@ -43,7 +43,7 @@ def migrate(config: ConfigTree) -> None:
                 config.copy(base + [network, option], base + [network, 'option', option])
                 config.delete(base + [network, option])
 
-        if not config.exists(base + [network, 'subnet']):
+        if  config.exists(base + [network, 'subnet']):
             for subnet in config.list_nodes(base + [network, 'subnet']):
                 base_subnet = base + [network, 'subnet', subnet]
 
