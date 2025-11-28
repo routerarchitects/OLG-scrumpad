@@ -1,3 +1,8 @@
+#!/usr/bin/ucode
+push(REQUIRE_SEARCH_PATH,
+        "/usr/lib/ucode/*.so",
+        "/usr/share/ucentral/*.uc");
+
 let fs = require("fs");
 
 function load_capabilities() {
@@ -126,11 +131,33 @@ function convert_hours_to_seconds(s, def) {
 	return def;
 }
 
+function return_default_config(op_arg, op)
+{
+	let args_path = "/etc/ucentral/vyos-info.json";
+	let args = {};
+	if (fs.stat(args_path)) {
+    		let f = fs.open(args_path, "r");
+    		args = json(f.read("all"));
+    		f.close();
+	}
+
+	let host = args.host;
+	let key  = args.key;
+	let scope = {
+        op_arg, op, host, fs, key
+        };
+	let raw = render('vyos_api_caller.uc', scope);
+        let jsn = json(raw);
+	return jsn;
+}
+
 return {
 	vyos_render: function(config) {
 		let capab = load_capabilities();
+
 		let wan_ifname = null;
 		let lan_ifname = null;
+
 		if (capab && type(capab.network) == "object") {
 			if (type(capab.network.wan) == "array" && length(capab.network.wan) > 0)
 				wan_ifname = capab.network.wan[0];
@@ -139,11 +166,25 @@ return {
 				lan_ifname = capab.network.lan[0];
 		}
 
+		let op_arg = { };
+		let op = "showConfig";
+		op_arg.path = ["pki"];
+
+		let rc = return_default_config(op_arg, op);
+		let pki = render('vyos_pki.uc', {rc});
+
+		printf("PKI is %s \n\n ", pki);
+
 		let interfaces = render('vyos_interface.uc', {
 			config,
 			wan_ifname,
 			lan_ifname
 		});
+
+		op_arg.path = ["system", "login"];
+		let systeminfo = return_default_config(op_arg, op);
+		printf("system info is %s\n\n",systeminfo);
+		let system = render('vyos_system.uc',{systeminfo});
 
 		let nat = render('vyos_nat.uc', {
 			config,
@@ -151,8 +192,11 @@ return {
 			network_base
 		});
 
+		op_arg.path = ["service", "https"];
+		let https = return_default_config(op_arg, op);
 		let services = render('vyos_service.uc', {
 			config,
+			https,
 			split_cidr,
 			network_base,
 			add_host,
@@ -164,7 +208,9 @@ return {
 			convert_hours_to_seconds
 		});
 
-		return interfaces + "\n" + nat + "\n" + services + "\n";
+		let vyos_version = render('vyos_version.uc');
+
+		return interfaces + "\n" + nat + "\n" + services + "\n" + pki + "\n" + system + "\n" + vyos_version + "\n";
 	}
 };
 

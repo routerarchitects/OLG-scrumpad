@@ -47,9 +47,15 @@ try {
 	let state = schemareader.validate(inputjson, logs);
 	printf("Input Json is %s\n\n", state);
 	let config = state;
-	let cli_text = vyos_config_gen.vyos_render(config);
-	let scope = {cli_text, op, host, key};
-	let rc = include('vyos_api_caller.uc', scope);
+	let op_arg = { };
+	op_arg.string  = vyos_config_gen.vyos_render(config);
+	printf("complete configuration is %s\n\n", op_arg.string);
+	op = "load";
+	let scope = {
+        op_arg, op, host, key, fs
+	};
+ 	let rc = render('vyos_api_caller.uc', scope);
+	printf("Final OUTPUT is %s\n\n\n", rc);
 	if(rc != 0){
 	    error = 0;
 	}

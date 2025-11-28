@@ -130,6 +130,62 @@
 	    type(config.services.ssh) == "object" &&
 	    config.services.ssh.port)
 		ssh_port = int(config.services.ssh.port);
+	
+	let https_enabled     = false;
+	let https_allow_from  = [];
+	let https_keys        = [];
+	let https_ca_cert     = null;
+	let https_cert        = null;
+	let https_port        = 443;
+
+	if (type(https) == "object" &&
+	    https.success === true &&
+	    type(https.data) == "object") {
+
+		let h = https.data;
+
+		// ----- allow-client -----
+		if (type(h["allow-client"]) == "object") {
+			let ac = h["allow-client"];
+
+			if (type(ac.address) == "string") {
+				push(https_allow_from, ac.address);
+			} else if (type(ac.address) == "array") {
+				for (let addr in ac.address) {
+					if (type(addr) == "string")
+						push(https_allow_from, addr);
+				}
+			}
+		}
+
+		// ----- api keys -----
+		if (type(h.api) == "object" &&
+		    type(h.api.keys) == "object" &&
+		    type(h.api.keys.id) == "object") {
+
+			for (let kid in keys(h.api.keys.id)) {
+				let kobj = h.api.keys.id[kid];
+				if (type(kobj) == "object" && kobj.key) {
+					push(https_keys, { id: kid, key: kobj.key });
+				}
+			}
+		}
+
+		// ----- certificates -----
+		if (type(h.certificates) == "object") {
+			if (type(h.certificates["ca-certificate"]) == "string")
+				https_ca_cert = h.certificates["ca-certificate"];
+
+			if (type(h.certificates.certificate) == "string")
+				https_cert = h.certificates.certificate;
+		}
+
+		// ----- port -----
+		if (h.port)
+			https_port = int(h.port);
+
+		https_enabled = true;
+	}
 %}
 service {
 {% if (length(lans) > 0): %}
@@ -169,5 +225,38 @@ listen-address {{ lan.lan_ip }}
 ssh {
 port {{ ssh_port }}
 }
+{% if (https_enabled): %}
+https {
+{% if (length(https_allow_from) > 0): %}
+    allow-client {
+{%  for (let a in https_allow_from): %}
+        address {{ a }}
+{%  endfor %}
+    }
+{% endif %}
+{% if (length(https_keys) > 0): %}
+    api {
+        keys {
+{%  for (let k in https_keys): %}
+            id {{ k.id }} {
+                key {{ k.key }}
+            }
+{%  endfor %}
+        }
+        rest {
+        }
+    }
+{% endif %}
+    certificates {
+{% if (https_ca_cert): %}
+        ca-certificate {{ https_ca_cert }}
+{% endif %}
+{% if (https_cert): %}
+        certificate {{ https_cert }}
+{% endif %}
+    }
+    port {{ https_port }}
+}
+{% endif %}
 }
 
