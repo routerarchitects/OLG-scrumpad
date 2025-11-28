@@ -6359,6 +6359,88 @@ function instantiateInterfaceTunnel(location, value, errors) {
 
 	return value;
 }
+function parseVifDhcpInfo(location, value, errors) {
+ 	if (type(value) == "object") {
+                let obj = {};
+                function parseLeaseFirst(location, value, errors) {
+                        if (type(value) != "int")
+                                push(errors, [ location, "must be of type integer" ]);
+
+                        return value;
+                }
+                if (exists(value, "lease-first")) {
+                        obj.lease_first = parseLeaseFirst(location + "/lease-first", value["lease-first"], errors);
+                }
+
+                function parseLeaseCount(location, value, errors) {
+                        if (type(value) != "int")
+                                push(errors, [ location, "must be of type integer" ]);
+
+                        return value;
+                }
+
+                if (exists(value, "lease-count")) {
+                        obj.lease_count = parseLeaseCount(location + "/lease-count", value["lease-count"], errors);
+                }
+                function parseLeaseTime(location, value, errors) {
+                        if (type(value) == "string") {
+                                if (!matchUcTimeout(value))
+                                        push(errors, [ location, "must be a valid timeout value" ]);
+                        }
+                        if (type(value) != "string")
+                                push(errors, [ location, "must be of type string" ]);
+                        return value;
+                }
+                if (exists(value, "lease-time")) {
+                        obj.lease_time = parseLeaseTime(location + "/lease-time", value["lease-time"], errors);
+                }
+                else {
+                        obj.lease_time = "6h";                                                                                                                                                        }
+
+		return obj;
+	}
+	if (type(value) != "object")
+                push(errors, [ location, "must be of type object" ]);
+        return value;
+}
+function instantiateVirtualInterfaces(location, value, errors) {
+	if(type(value) == "object") {
+		let obj = {};
+
+		function parseVlan(location, value, errors){
+			if(type(value) != "int")
+				push(errors, [location, "must be of type int"]);
+		return value;
+		}
+
+	 	if(exists(value, "vlan")) {
+			obj.vlan = parseVlan(location + "/vlan" , value["vlan"], errors);
+		}
+
+		function parseSubnet(location, value, errors) {
+                        if (type(value) == "string") {
+                                if (!matchUcCidr4(value))
+                                        push(errors, [ location, "must be a valid IPv4 CIDR" ]);
+                        }
+
+                        if (type(value) != "string")
+                                push(errors, [ location, "must be of type string" ]);
+
+                        return value;
+                }
+                if (exists(value, "subnet")) {
+                        obj.subnet = parseSubnet(location + "/subnet", value["subnet"], errors);
+                }
+
+		if(exists(value, "dhcp")) {
+			obj.dhcp = parseVifDhcpInfo(location + "/dhcp", value["dhcp"], errors);
+		}
+		return obj;
+	}
+	if (type(value) != "object")
+                push(errors, [ location, "must be of type object" ]);
+	return value;
+}
 
 function instantiateInterface(location, value, errors) {
 	if (type(value) == "object") {
@@ -6545,6 +6627,22 @@ function instantiateInterface(location, value, errors) {
 		if (exists(value, "ethernet")) {
 			obj.ethernet = parseEthernet(location + "/ethernet", value["ethernet"], errors);
 		}
+
+		function parsevif(location, value, errors) {
+                        if (type(value) == "array") {
+				print("Aditya: calling instantiateVirtualInterfaces function");
+                                return map(value, (item, i) => instantiateVirtualInterfaces(location + "/" + i, item, errors));
+                        }
+
+                        if (type(value) != "array")
+                                push(errors, [ location, "must be of type array" ]);
+
+                        return value;
+                }
+
+		if (exists(value, "vif")) {
+                        obj.vif = parsevif(location + "/vif", value["vif"], errors);
+                }
 
 		if (exists(value, "ipv4")) {
 			obj.ipv4 = instantiateInterfaceIpv4(location + "/ipv4", value["ipv4"], errors);
