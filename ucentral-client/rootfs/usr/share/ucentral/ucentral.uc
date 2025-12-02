@@ -6,9 +6,8 @@ push(REQUIRE_SEARCH_PATH,
 let schemareader = require("schemareader");
 let fs = require("fs");
 let ubus = require("ubus").connect();
-
 let vyos = require("vyos.config_prepare");
-
+let vyos_api = require("vyos.https_server_api");
 let inputfile = fs.open(ARGV[0], "r");
 let inputjson = json(inputfile.read("all"));
 let custom_config = (split(ARGV[0], ".")[0] != "/etc/ucentral/ucentral");
@@ -27,32 +26,26 @@ if (fs.stat(args_path)) {
     f.close();
 }
 
-let op   = (ARGV.length > 1 && ARGV[1] != "-") ? ARGV[1] : (args.op   ?? null);
 let host = (ARGV.length > 2 && ARGV[2] != "-") ? ARGV[2] : (args.host ?? null);
 let key  = (ARGV.length > 3 && ARGV[3] != "-") ? ARGV[3] : (args.key  ?? null);
 
-if (!op || !host || !key) {
+if (!host || !key) {
     print("Missing op/host/key. Provide them in /etc/ucentral/vyos-info.json or pass '-' placeholders and ensure file exists.\n");
     exit(1);
 }
 
 try {
-	for (let cmd in [ 'rm -rf /tmp/ucentral',
-			  'mkdir /tmp/ucentral',
-			  'rm /tmp/dnsmasq.conf',
-			  '/etc/init.d/spotfilter stop',
-			  'touch /tmp/dnsmasq.conf' ])
-		system(cmd);
-
 	let state = schemareader.validate(inputjson, logs);
-	let vyos_config_payload  = vyos.vyos_render(state);
-	let scope = {
-        vyos_config_payload, op, host, key
-	};
-	let rc = include('vyos/https_server_api.uc', scope);
-	/* TODO: Return Handling to be done yet */
-	if(rc != 0){
-	    error = 0;
+	let op_arg = { };
+	vyos_config_payload  = vyos.vyos_render(state);
+	op_arg.string = vyos_config_payload;
+	let op = "load";
+	let rc = vyos_api.vyos_api_call(op_arg, op, host, key);
+	if(rc != ''){
+		rc = json(rc);
+	}
+	if(rc != '' && rc.success == false){
+		error = 1;
 	}
 
 }

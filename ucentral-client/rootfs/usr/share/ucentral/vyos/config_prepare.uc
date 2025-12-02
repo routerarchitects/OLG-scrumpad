@@ -1,7 +1,7 @@
 // This file is to generatre full VyOS style configuration from uCentral config
 
 let fs = require("fs");
-
+let vyos_api = require("vyos.https_server_api");
 function load_capabilities() {
 	let capabfile = fs.open("/etc/ucentral/capabilities.json", "r");
 	if (!capabfile)
@@ -49,6 +49,23 @@ function convert_lease_time_to_seconds(s, def){
     if(u=="d") return n*86400;
     return def;
 }
+function vyos_retrieve_info(op_arg, op)
+{
+	let args_path = "/etc/ucentral/vyos-info.json";
+	let args = {};
+	if (fs.stat(args_path)) {
+		let f = fs.open(args_path, "r");
+		args = json(f.read("all"));
+		f.close();
+	}
+
+	let host = args.host;
+	let key  = args.key;
+	let resp = vyos_api.vyos_api_call(op_arg, op, host, key);
+	//TODO:Check Return Value and handle response from here
+	let jsn = json(resp);
+	return jsn;
+}
 
 return {
 	vyos_render: function(config) {
@@ -63,6 +80,12 @@ return {
 			if (type(capab.network.lan) == "array" && length(capab.network.lan) > 0)
 				lan_ifname = capab.network.lan[0];
 		}
+		let op_arg = { };
+		let op = "showConfig";
+		op_arg.path = ["pki"];
+
+		let rc = vyos_retrieve_info(op_arg, op);
+		let pki = render('templates/pki.uc', {rc});
 
 		let interfaces = render('templates/interface.uc', {
 			config,
@@ -70,14 +93,21 @@ return {
 			lan_ifname
 		});
 
+		op_arg.path = ["system", "login"];
+		let systeminfo = vyos_retrieve_info(op_arg, op);
+		let system = render('templates/system.uc',{systeminfo});
+
 		let nat = render('templates/nat.uc', {
 			config,
 			wan_ifname,
 			network_base
 		});
 
+		op_arg.path = ["service", "https"];
+		let https = vyos_retrieve_info(op_arg, op);
 		let services = render('templates/service.uc', {
 			config,
+			https,
 			split_ip_prefix,
 			network_base,
 			add_host,
@@ -88,7 +118,9 @@ return {
 			int_to_tuple,
 			convert_lease_time_to_seconds
 		});
+		//TODO: Need to understand Firmware Upgrade and Migration Logic of VyOS then modify this
+		let vyos_version = render('templates/version.uc');
 
-		return interfaces + "\n" + nat + "\n" + services + "\n";
+		return interfaces + "\n" + nat + "\n" + services + "\n" + pki + "\n" + system + "\n" + vyos_version + "\n";
 	}
 };

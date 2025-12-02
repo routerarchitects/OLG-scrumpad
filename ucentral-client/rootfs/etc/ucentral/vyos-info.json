@@ -1,6 +1,5 @@
 {
-  "op": "merge",
-  "host": "https://192.168.76.195",
-  "key": "MY-HTTPS-API-PLAINTEXT-KEY"
+	"host": "https://192.168.76.195",
+	"key": "MY-HTTPS-API-PLAINTEXT-KEY"
 }
 
