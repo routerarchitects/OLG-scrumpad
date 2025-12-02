@@ -1,5 +1,5 @@
 let fs = require("fs");
-
+let vyos_api = require("vyos_api_caller");
 function load_capabilities() {
 	let capabfile = fs.open("/etc/ucentral/capabilities.json", "r");
 	if (!capabfile)
@@ -50,15 +50,30 @@ function convert_lease_time_to_seconds(s, def){
     return def;
 }
 
+function vyos_retrieve_info(op_arg, op)
+{
+	let args_path = "/etc/ucentral/vyos-info.json";
+	let args = {};
+	if (fs.stat(args_path)) {
+    		let f = fs.open(args_path, "r");
+    		args = json(f.read("all"));
+    		f.close();
+	}
 
+	let host = args.host;
+	let key  = args.key;
+	let resp = vyos_api.vyos_api_call(op_arg, op, host, key);
+        let jsn = json(resp);
+	return jsn;
+}
 
 return {
 	vyos_render: function(config) {
 		let capab = load_capabilities();
-
+		
 		let wan_ifname = null;
-		let lan_ifname = null;
-
+		let lan_ifname = null;		
+		
 		if (capab && type(capab.network) == "object") {
 			if (type(capab.network.wan) == "array" && length(capab.network.wan) > 0)
 				wan_ifname = capab.network.wan[0];
@@ -66,13 +81,23 @@ return {
 			if (type(capab.network.lan) == "array" && length(capab.network.lan) > 0)
 				lan_ifname = capab.network.lan[0];
 		}
-
+		
+		let op_arg = { };	
+		let op = "showConfig";
+		op_arg.path = ["pki"];
+		
+		let rc = vyos_retrieve_info(op_arg, op);
+		let pki = render('vyos_pki.uc', {rc});
 
 		let interfaces = render('vyos_interface.uc', {
 			config,
 			wan_ifname,
 			lan_ifname
 		});
+		
+		op_arg.path = ["system", "login"];
+		let systeminfo = vyos_retrieve_info(op_arg, op); 	
+		let system = render('vyos_system.uc',{systeminfo});		
 
 		let nat = render('vyos_nat.uc', {
 			config,
@@ -80,8 +105,11 @@ return {
 			network_base
 		});
 
+		op_arg.path = ["service", "https"];
+		let https = vyos_retrieve_info(op_arg, op);
 		let services = render('vyos_service.uc', {
 			config,
+			https,
 			split_ip_prefix,
 			network_base,
 			add_host,
@@ -89,11 +117,13 @@ return {
 			prefix_to_mask,
 			tuple_to_int,
 			tuple_to_ip,
-			int_to_tuple,
+			int_to_tuple,						
 			convert_lease_time_to_seconds
 		});
+		
+		let vyos_version = render('vyos_version.uc');		
 
-		return interfaces + "\n" + nat + "\n" + services + "\n";
+		return interfaces + "\n" + nat + "\n" + services + "\n" + pki + "\n" + system + "\n" + vyos_version + "\n";
 	}
 };
 
