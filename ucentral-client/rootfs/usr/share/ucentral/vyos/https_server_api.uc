@@ -6,11 +6,10 @@ push(REQUIRE_SEARCH_PATH,
 let fs = require("fs");
 
 if (!key) { fprintf(stderr, "Missing API key\n"); exit(2); }
-printf("CLI TEXT IS %s\n\n", cli_text);
 /* TODO: pass as container environment variable for load */
 let loadapi_payload_obj = { op: "load", file: "/opt/vyatta/etc/config/config.boot" };
 let loadapi_payload_str = sprintf("%J", loadapi_payload_obj);
-let api_payload_obj = { op: op, string: cli_text };
+let api_payload_obj = { op: op, string: vyos_config_payload };
 let api_payload_str = sprintf("%J", api_payload_obj);
 function quoteForShell(s) {
     if (s == null)

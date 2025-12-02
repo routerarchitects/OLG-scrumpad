@@ -7,7 +7,7 @@ let schemareader = require("schemareader");
 let fs = require("fs");
 let ubus = require("ubus").connect();
 
-let vyos = require("vyos_config_gen");
+let vyos = require("vyos.config_prepare");
 
 let inputfile = fs.open(ARGV[0], "r");
 let inputjson = json(inputfile.read("all"));
@@ -45,12 +45,11 @@ try {
 		system(cmd);
 
 	let state = schemareader.validate(inputjson, logs);
-	printf("Input Json is %s\n\n", inputjson);
-	let cli_text  = vyos.convertvyos(inputjson);
+	let vyos_config_payload  = vyos.vyos_render(state);
 	let scope = {
-	    cli_text, op, host, key
+        vyos_config_payload, op, host, key
 	};
-	let rc = include('vyos_api_caller.uc', scope);
+	let rc = include('vyos/https_server_api.uc', scope);
 	/* TODO: Return Handling to be done yet */
 	if(rc != 0){
 	    error = 0;
