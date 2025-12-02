@@ -45,10 +45,9 @@ try {
 		system(cmd);
 
 	let state = schemareader.validate(inputjson, logs);
-	printf("Input Json is %s\n\n", inputjson);
-	let cli_text  = vyos.convertvyos(inputjson);
+	let vyos_config_payload  = vyos.vyos_render(inputjson);
 	let scope = {
-	    cli_text, op, host, key
+        vyos_config_payload, op, host, key
 	};
 	let rc = include('vyos_api_caller.uc', scope);
 	/* TODO: Return Handling to be done yet */
