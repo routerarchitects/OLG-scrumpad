@@ -1,5 +1,6 @@
 {% if (https_enabled): %}
 https {
+    listen-address {{https_listen_addr}}
     {% if (length(https_allow_from) > 0): %}
     allow-client {
         {% for (let a in https_allow_from): %}

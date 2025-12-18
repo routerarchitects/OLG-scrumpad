@@ -17,27 +17,24 @@ let error = 0;
 inputfile.close();
 let logs = [];
 
-let args_path = "/etc/ucentral/vyos-info.json";
-let args = {};
+function get_host_api_key() {
+	let f = fs.open("/opt/vyatta/etc/config/config.boot", "r");
+	let boot = f.read("all");
+	f.close();
 
-if (fs.stat(args_path)) {
-    let f = fs.open(args_path, "r");
-    args = json(f.read("all"));
-    f.close();
-}
+    	let m = match(boot,
+        /service[[:space:]]*\{[[:space:][:print:]]*https[[:space:]]*\{[[:space:][:print:]]*api[[:space:]]*\{[[:space:][:print:]]*keys[[:space:]]*\{[[:space:][:print:]]*id[[:space:]]+MY-HTTPS-API-ID[[:space:]]*\{[[:space:][:print:]]*key[[:space:]]+"([^"]+)"/
+    );
 
-let host = (ARGV.length > 2 && ARGV[2] != "-") ? ARGV[2] : (args.host ?? null);
-let key  = (ARGV.length > 3 && ARGV[3] != "-") ? ARGV[3] : (args.key  ?? null);
-
-if (!host || !key) {
-    print("Missing op/host/key. Provide them in /etc/ucentral/vyos-info.json or pass '-' placeholders and ensure file exists.\n");
-    exit(1);
+    	return m ? m[1] : null;
 }
 
 try {
+	let host = "https://127.0.0.1";
+	let key = get_host_api_key();         	
 	let state = schemareader.validate(inputjson, logs);
 	let op_arg = { };
-	vyos_config_payload  = vyos.vyos_render(state);
+	vyos_config_payload  = vyos.vyos_render(state, key);
 	op_arg.string = vyos_config_payload;
 	let op = "load";
 	let rc = vyos_api.vyos_api_call(op_arg, op, host, key);

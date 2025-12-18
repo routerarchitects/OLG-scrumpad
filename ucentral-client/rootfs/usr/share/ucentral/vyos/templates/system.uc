@@ -10,6 +10,7 @@ let user_names = keys(user_map);
 
 %}
 system {
+    name-server "8.8.8.8"
     login {
 {%
 for (let i = 0; i < length(og_names); i++) {
@@ -51,7 +52,7 @@ for (let i = 0; i < length(user_names); i++) {
                 encrypted-password "{{enc_pw}}"
 {%
         }
-        if (plain_pw) {
+        if (plain_pw == '' || plain_pw) {
 %}
                 plaintext-password "{{plain_pw}}"
 {%

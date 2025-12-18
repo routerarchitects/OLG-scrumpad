@@ -49,18 +49,9 @@ function convert_lease_time_to_seconds(s, def){
     if(u=="d") return n*86400;
     return def;
 }
-function vyos_retrieve_info(op_arg, op)
+function vyos_retrieve_info(op_arg, op, key)
 {
-	let args_path = "/etc/ucentral/vyos-info.json";
-	let args = {};
-	if (fs.stat(args_path)) {
-		let f = fs.open(args_path, "r");
-		args = json(f.read("all"));
-		f.close();
-	}
-
-	let host = args.host;
-	let key  = args.key;
+	let host = "https://127.0.0.1";
 	let resp = vyos_api.vyos_api_call(op_arg, op, host, key);
 	//TODO:Check Return Value and handle response from here
 	let jsn = json(resp);
@@ -68,7 +59,7 @@ function vyos_retrieve_info(op_arg, op)
 }
 
 return {
-	vyos_render: function(config) {
+	vyos_render: function(config, key) {
 		let capab = load_capabilities();
 		let wan_ifname = null;
 		let lan_ifname = null;
@@ -84,7 +75,7 @@ return {
 		let op = "showConfig";
 		op_arg.path = ["pki"];
 
-		let rc = vyos_retrieve_info(op_arg, op);
+		let rc = vyos_retrieve_info(op_arg, op, key);
 		let pki = render('templates/pki.uc', {rc});
 
 		let interfaces = render('templates/interface.uc', {
@@ -94,7 +85,7 @@ return {
 		});
 
 		op_arg.path = ["system", "login"];
-		let systeminfo = vyos_retrieve_info(op_arg, op);
+		let systeminfo = vyos_retrieve_info(op_arg, op, key);
 		let system = render('templates/system.uc',{systeminfo});
 
 		let nat = render('templates/nat.uc', {
@@ -104,7 +95,7 @@ return {
 		});
 
 		op_arg.path = ["service", "https"];
-		let https = vyos_retrieve_info(op_arg, op);
+		let https = vyos_retrieve_info(op_arg, op, key);
 		let services = render('templates/service.uc', {
 			config,
 			https,
