@@ -18,15 +18,16 @@ inputfile.close();
 let logs = [];
 
 function get_host_api_key() {
-	let f = fs.open("/opt/vyatta/etc/config/config.boot", "r");
-	let boot = f.read("all");
-	f.close();
-
-    	let m = match(boot,
-        /service[[:space:]]*\{[[:space:][:print:]]*https[[:space:]]*\{[[:space:][:print:]]*api[[:space:]]*\{[[:space:][:print:]]*keys[[:space:]]*\{[[:space:][:print:]]*id[[:space:]]+MY-HTTPS-API-ID[[:space:]]*\{[[:space:][:print:]]*key[[:space:]]+"([^"]+)"/
-    );
-
-    	return m ? m[1] : null;
+	// Use backslashes to escape the internal double quotes
+	let cmd = "/opt/vyatta/bin/vyatta-op-cmd-wrapper show configuration commands | grep \"api keys\" | cut -d\"'\" -f2";
+	let proc = fs.popen(cmd, "r");
+	if (!proc) {
+		fprintf(stderr, "CLI command failed\n");
+		return null;
+	}
+	let out = proc.read("all");
+	proc.close();
+	return out;
 }
 
 try {
