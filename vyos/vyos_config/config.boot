@@ -23,7 +23,7 @@ pki {
 service {
     https {
         allow-client {
-            address "0.0.0.0/0"
+            address "127.0.0.1/32"
         }
         api {
             keys {
@@ -38,6 +38,7 @@ service {
             ca-certificate "my-ca"
             certificate "api-cert"
         }
+        listen-address "127.0.0.1"
         port "443"
     }
     ntp {
