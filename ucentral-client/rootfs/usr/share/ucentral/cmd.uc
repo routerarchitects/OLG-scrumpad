@@ -1,7 +1,6 @@
 #!/usr/bin/ucode
 push(REQUIRE_SEARCH_PATH, '/usr/share/ucentral/*.uc');
 let fs = require("fs");
-let uci = require("uci");
 let ubus = require("ubus");
 let capabfile = fs.open("/etc/ucentral/capabilities.json", "r");
 let capab = json(capabfile.read("all"));
@@ -55,8 +54,6 @@ function result_json(status) {
 /* Scope of functions and ressources the command includes have access to */
 let scope = {
 	/* ressources */
-	uci,
-	cursor: uci.cursor(),
 	ctx,
 	fs,
 	restrict,

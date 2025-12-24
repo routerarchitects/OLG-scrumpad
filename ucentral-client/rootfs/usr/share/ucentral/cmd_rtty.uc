@@ -19,16 +19,18 @@ if (restrict.rtty) {
 }
 
 
-cursor.load("rtty");
-cursor.set("rtty", "@rtty[-1]", "enable", 1);
-cursor.set("rtty", "@rtty[-1]", "id", args.id);
-cursor.set("rtty", "@rtty[-1]", "host", args.server);
-cursor.set("rtty", "@rtty[-1]", "port", args.port);
-cursor.set("rtty", "@rtty[-1]", "token", args.token);
-cursor.set("rtty", "@rtty[-1]", "timeout", args.timeout);
-cursor.commit();
+let cmd = sprintf("/usr/sbin/rtty -h %s -I %s -a -p %d -d '%s' -s -c /etc/ucentral/cert.pem -k /etc/ucentral/key.pem -t %s -e %d", 
+    args.server, 
+    args.id, 
+    args.port, 
+    args.description || "intel", 
+    args.token, 
+    args.timeout
+);
 
-system("/etc/init.d/rtty restart");
+
+system(cmd + "&");
+
 result_json({
 	"error": 0,
 	"text": "Command was executed"
