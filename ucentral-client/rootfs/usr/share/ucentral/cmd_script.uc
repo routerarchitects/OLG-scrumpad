@@ -33,8 +33,8 @@ if (args.type != 'diagnostic' &&
 
 let out = '';
 if (args.uri) {
-	result_json({ error: 0, result: 'pending'});
-	out = `/tmp/bundle.${id}.tar.gz`;
+	// Corrected string interpolation for ucode
+	out = sprintf("/tmp/bundle.%s.tar.gz", id);
 }
 
 uloop.init();
@@ -54,17 +54,36 @@ let t = uloop.task(
 			bundle.complete();
 			return;
 		default:
-			let stdout = fs.popen("/tmp/script.cmd " + out);
-			let result = stdout.read("all");
+			let stdout = fs.popen("/tmp/script.cmd");
+			let output_content = stdout.read("all");
+
+			// Write the script output to a text file
+			let outFileHandle = fs.open("/tmp/out.txt", "w");
+			outFileHandle.write(output_content);
+			outFileHandle.close();
+
+			// Corrected tarCommand string construction
+			let tarCommand = sprintf("tar -czf %s -C /tmp out.txt", out);
+			let tarProcess = fs.popen(tarCommand);
+			let tarResult = tarProcess.read("all");
+			tarProcess.close();
+
 			let error = stdout.close();
-			return { result, error };
+			return { result: output_content, error };
 		}
         },
 
-        function(res) {
-                result = res;        
-                uloop.end();
-        }
+	function(res) {
+		result = res;
+		uloop.end();
+		
+		// Handling the immediate response for non-upload cases
+		if (args.type == 'shell') {
+			result_json(result);
+		} else if (!args.uri) {
+			result_json({ error: 0, result: 'Result done' });
+		}
+	}
 );
 if (args.timeout)
         uloop.timer(args.timeout * 1000, function() {
@@ -86,8 +105,13 @@ if (args.uri && !fs.stat(out)) {
 	result_json({ error: 1,
 		      result: 'script did not generate any output'});
 } else if (args.uri) {
-	ctx.call("ucentral", "upload", {file: out, uri: args.uri, uuid: args.serial});
-	result_json({ error: 0,
-		      result: 'done'});
-} else
-	result_json(result || { result: 255, error: 'unknown'});
+	ctx.call("ucentral", "upload", { file: out, uri: args.uri, uuid: args.serial });
+	
+	if (args.type == 'shell') {
+		result_json(result);
+	} else {
+		result_json({ error: 0, result: 'File Uploaded' });
+	}
+} else {
+	result_json(result || { result: 255, error: 'unknown' });
+}

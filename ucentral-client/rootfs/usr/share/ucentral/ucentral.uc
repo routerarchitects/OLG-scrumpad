@@ -17,27 +17,25 @@ let error = 0;
 inputfile.close();
 let logs = [];
 
-let args_path = "/etc/ucentral/vyos-info.json";
-let args = {};
-
-if (fs.stat(args_path)) {
-    let f = fs.open(args_path, "r");
-    args = json(f.read("all"));
-    f.close();
-}
-
-let host = (ARGV.length > 2 && ARGV[2] != "-") ? ARGV[2] : (args.host ?? null);
-let key  = (ARGV.length > 3 && ARGV[3] != "-") ? ARGV[3] : (args.key  ?? null);
-
-if (!host || !key) {
-    print("Missing op/host/key. Provide them in /etc/ucentral/vyos-info.json or pass '-' placeholders and ensure file exists.\n");
-    exit(1);
+function get_host_api_key() {
+	// Use backslashes to escape the internal double quotes
+	let cmd = "/opt/vyatta/bin/vyatta-op-cmd-wrapper show configuration commands | grep \"api keys\" | cut -d\"'\" -f2";
+	let proc = fs.popen(cmd, "r");
+	if (!proc) {
+		fprintf(stderr, "CLI command failed\n");
+		return null;
+	}
+	let out = proc.read("all");
+	proc.close();
+	return out;
 }
 
 try {
+	let host = "https://127.0.0.1";
+	let key = get_host_api_key();         	
 	let state = schemareader.validate(inputjson, logs);
 	let op_arg = { };
-	vyos_config_payload  = vyos.vyos_render(state);
+	vyos_config_payload  = vyos.vyos_render(state, key);
 	op_arg.string = vyos_config_payload;
 	let op = "load";
 	let rc = vyos_api.vyos_api_call(op_arg, op, host, key);

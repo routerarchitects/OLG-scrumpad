@@ -136,6 +136,7 @@
 	let https_enabled     = false;
 	let https_allow_from  = [];
 	let https_keys        = [];
+	let https_listen_addr = null;
 	let https_ca_cert     = null;
 	let https_cert        = null;
 	let https_port        = 443;
@@ -145,6 +146,11 @@
 	    type(https.data) == "object") {
 
 		let h = https.data;
+		
+		//-----listen-address-----
+		if(type(h["listen-address"]) == "string") {
+			https_listen_addr = h["listen-address"];
+		}
 
 		// ----- allow-client -----
 		if (type(h["allow-client"]) == "object") {
@@ -193,5 +199,5 @@ service {
     {% include('services/dhcp-server.uc', {lans}); %}
     {% include('services/dns-forwarding.uc', {lans}); %}
     {% include('services/ssh.uc', {ssh_port}); %}
-    {% include('services/https.uc', {https_enabled, https_allow_from, https_keys, https_ca_cert, https_cert, https_port}); %}
+    {% include('services/https.uc', {https_enabled, https_allow_from, https_keys, https_ca_cert, https_cert, https_port, https_listen_addr}); %}
 }
