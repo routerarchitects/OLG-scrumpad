@@ -1,13 +1,16 @@
 {%
     let wan  = null;
-    let lans = [];
+    let lan  = null;
+    let vlans = [];
 
     if (type(config.interfaces) == "array") {
         for (let iface in config.interfaces) {
             if (iface.role == "upstream" && !wan)
                 wan = iface;
-            else if (iface.role == "downstream")
-                push(lans, iface);
+            else if (iface.role == "downstream" && type(iface.vlan) == "object")
+                push(vlans, iface);
+	    else if (iface.role == "downstream" && type(iface.vlan) != "object" && !lan)
+		lan = iface;
         }
     }
 %}
@@ -30,18 +33,13 @@ interfaces {
         {% endif %}
     }
     {% endif %}
-    {% for (let i = 0; i < length(lans); i++): %}
+    {% if (lan): %}
     {%
-        let iface     = lans[i];
-        let ipv4      = iface.ipv4;
+        let ipv4      = lan.ipv4;
         let addr_mode = ipv4 ? ipv4.addressing : null;
         let cidr      = (ipv4 && type(ipv4.subnet) == "string") ? ipv4.subnet : null;
 
-        let ifname = null;
-        if (i == 0 && lan_ifname)
-            ifname = lan_ifname;
-        else
-            ifname = sprintf("eth%d", 1 + i);
+        let ifname = lan_ifname
     %}
     ethernet {{ ifname }} {
         {% if (addr_mode == "dynamic"): %}
@@ -49,20 +47,18 @@ interfaces {
         {% elif (addr_mode == "static" && cidr): %}
         address {{ cidr }}
         {% endif %}
-        {% if (iface.name): %}
-        description {{ iface.name }}
+        {% if (lan.name): %}
+        description {{ lan.name }}
         {% endif %}
 
-        {% if (type(iface.vif) == "array"): %}
-            {% for (let v in iface.vif): %}
-                {% if (v.vlan && type(v.subnet) == "string"): %}
-        vif {{ v.vlan }} {
-            address {{ v.subnet }}
-            description VLAN{{ v.vlan }}
+        {% for (let v in vlans): %}
+            {% if (type(v.vlan) == "object" && v.vlan.id && type(v.ipv4) == "object" && type(v.ipv4.subnet) == "string"): %}
+        vif {{ v.vlan.id }} {
+            address {{ v.ipv4.subnet }}
+            description VLAN{{ v.vlan.id }}
         }
-                {% endif %}
-            {% endfor %}
-        {% endif %}
+            {% endif %}
+        {% endfor %}
     }
-    {% endfor %}
+    {% endif %}
 }

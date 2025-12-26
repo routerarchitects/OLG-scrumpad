@@ -16,20 +16,6 @@
                     push(nets, nb[0]); // 192.168.50.0/24
             }
 
-            // VLAN VIFs
-            if (type(iface.vif) == "array") {
-                for (let v in iface.vif) {
-                    if (type(v.subnet) != "string")
-                        continue;
-
-                    let nbv = network_base(v.subnet);
-                    if (!nbv)
-                        continue;
-
-                    // 192.168.10.0/24, 192.168.20.0/24
-                    push(nets, nbv[0]);
-                }
-            }
         }
     }
 %}
