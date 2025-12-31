@@ -66,6 +66,11 @@ system {
     config-management {
         commit-revisions "100"
     }
+    console {
+        device ttyS0 {
+            speed 115200
+        }
+    }
     conntrack {
         modules {
             ftp

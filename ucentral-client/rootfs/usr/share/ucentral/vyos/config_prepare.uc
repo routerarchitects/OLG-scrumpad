@@ -95,7 +95,9 @@ return {
 
 		op_arg.path = ["system", "login"];
 		let systeminfo = vyos_retrieve_info(op_arg, op);
-		let system = render('templates/system.uc',{systeminfo});
+		op_arg.path = ["system", "console"];
+		let consoleinfo = vyos_retrieve_info(op_arg, op);
+		let system = render('templates/system.uc',{systeminfo, consoleinfo});
 
 		let nat = render('templates/nat.uc', {
 			config,
