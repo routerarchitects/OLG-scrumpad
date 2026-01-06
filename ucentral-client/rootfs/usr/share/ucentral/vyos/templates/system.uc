@@ -7,9 +7,33 @@ let user_map = (type(data.user) == "object") ? data.user : {};
 
 let og_names   = keys(og_map);
 let user_names = keys(user_map);
+let cdata = (type(consoleinfo) == "object" && type(consoleinfo.data) == "object") ? consoleinfo.data : {};
 
+let cdev_map   = (type(cdata.device) == "object") ? cdata.device : {};
+let cdev_names = keys(cdev_map);
 %}
 system {
+     console {
+{%
+for (let i = 0; i < length(cdev_names); i++) {
+    let dev_name = cdev_names[i];
+    let dev      = (type(cdev_map[dev_name]) == "object") ? cdev_map[dev_name] : {};
+    let speed    = dev.speed || null;
+%}
+        device {{dev_name}} {
+{%
+    if (speed != null) {
+%}
+            speed "{{speed}}"
+{%
+    }
+%}
+        }
+{%
+}
+%}
+    }
+    name-server "8.8.8.8"
     login {
 {%
 for (let i = 0; i < length(og_names); i++) {
@@ -51,7 +75,7 @@ for (let i = 0; i < length(user_names); i++) {
                 encrypted-password "{{enc_pw}}"
 {%
         }
-        if (plain_pw) {
+        if (plain_pw == '' || plain_pw) {
 %}
                 plaintext-password "{{plain_pw}}"
 {%
