@@ -1,8 +1,12 @@
 {%
     let nets = [];
+    let wans = [];
 
     if (type(config.interfaces) == "array") {
         for (let iface in config.interfaces) {
+	    if (iface.role == "upstream")
+                push(wans, iface);
+
             if (iface.role != "downstream")
                 continue;
 
@@ -16,22 +20,9 @@
                     push(nets, nb[0]); // 192.168.50.0/24
             }
 
-            // VLAN VIFs
-            if (type(iface.vif) == "array") {
-                for (let v in iface.vif) {
-                    if (type(v.subnet) != "string")
-                        continue;
-
-                    let nbv = network_base(v.subnet);
-                    if (!nbv)
-                        continue;
-
-                    // 192.168.10.0/24, 192.168.20.0/24
-                    push(nets, nbv[0]);
-                }
-            }
         }
     }
+    let wan_bridge = (length(wans) > 0) ? "br0" : null;
 %}
 
 nat {
@@ -40,7 +31,7 @@ nat {
             {% for (let i = 0; i < length(nets); i++): %}
         rule {{ i + 1 }} {
             outbound-interface {
-                name {{ wan_ifname }}
+                name {{wan_bridge}}
             }
             source {
                 address {{ nets[i] }}

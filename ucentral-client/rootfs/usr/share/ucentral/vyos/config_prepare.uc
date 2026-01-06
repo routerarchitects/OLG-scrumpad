@@ -67,11 +67,100 @@ function vyos_retrieve_info(op_arg, op)
 	return jsn;
 }
 
+let ethernet = {
+	ports: {},
+
+	// Discover logical ports (WAN, LAN, LAN1, LAN2...) -> { netdev, index }
+	discover_ports: function() {
+		let capab = load_capabilities();
+		if (!capab || type(capab.network) != "object")
+			return {};
+
+		let roles = {};
+		let rv = {};
+
+		for (let role, spec in capab.network) {
+			if (type(spec) != "array")
+				continue;
+
+			for (let i, ifname in spec) {
+				let ROLE = uc(role);
+				let netdev = split(ifname, ':');  // eth0 or eth0:5 (ignore suffix)
+				let port = { netdev: netdev[0], index: i };
+				push(roles[ROLE] = roles[ROLE] || [], port);
+			}
+		}
+
+		for (let ROLE, ports in roles) {
+			switch (length(ports)) {
+			case 0:
+				break;
+
+			case 1:
+				rv[ROLE] = ports[0];
+				break;
+
+			default:
+				map(sort(ports, (a, b) => (a.index - b.index)), (port, i) => {
+					rv[ROLE + (i + 1)] = port;
+				});
+			}
+		}
+
+		return rv;
+	},
+
+	init: function() {
+		this.ports = this.discover_ports();
+		return this;
+	},
+
+	// Match select-ports globs against ethernet.ports
+	lookup: function(globs) {
+		let matched = {};
+
+		for (let glob, _ in globs) {
+			for (let name, spec in this.ports) {
+				if (wildcard(name, glob) && spec?.netdev)
+					matched[spec.netdev] = true;
+			}
+		}
+
+		return matched;
+	},
+
+	lookup_by_interface_port: function(interface) {
+		let globs = {};
+
+		if (type(interface?.ethernet) != "array")
+			return [];
+
+		map(interface.ethernet, eth => {
+			if (type(eth?.select_ports) == "array")
+				map(eth.select_ports, glob => globs[glob] = true);
+		});
+
+		return sort(keys(this.lookup(globs)));
+	},
+
+	mark_eth1_used: function(list, used_map) {
+		if (type(used_map) != "object" || type(list) != "array")
+			return;
+
+		for (let m in list) {
+			if (type(m) == "string" && length(m))
+				used_map[m] = true;
+		}
+	}
+};
+
+
 return {
 	vyos_render: function(config) {
 		let capab = load_capabilities();
 		let wan_ifname = null;
 		let lan_ifname = null;
+		ethernet.init();
 
 		if (capab && type(capab.network) == "object") {
 			if (type(capab.network.wan) == "array" && length(capab.network.wan) > 0)
@@ -90,6 +179,7 @@ return {
 		let interfaces = render('templates/interface.uc', {
 			config,
 			wan_ifname,
+			ethernet,
 			lan_ifname
 		});
 
