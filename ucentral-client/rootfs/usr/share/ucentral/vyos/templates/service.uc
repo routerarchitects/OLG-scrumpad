@@ -1,6 +1,5 @@
 {%
 	let lans = [];
-
 	if (type(config.interfaces) == "array") {
 		for (let iface in config.interfaces) {
 			if (iface.role != "downstream")
@@ -46,8 +45,8 @@
 						if (range_start)
 							range_stop = add_host(range_start, count - 1);
 				
-						let sid = (type(iface.vlan) == "object" && iface.vlan.id) ? int(iface.vlan.id) : 1;
-
+						let sid = (type(iface.vlan) == "object" && iface.vlan.id) ? int(iface.vlan.id) : (4097 + int(iface.index));
+			
 						if (range_start && range_stop) {
 							push(lans, {
 								name: iface.name || "LAN",

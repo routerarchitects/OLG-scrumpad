@@ -1,125 +1,44 @@
 {%
-let wans  = [];
-let lans  = [];
-let vlans = [];
-
-if (type(config.interfaces) == "array") {
-	for (let iface in config.interfaces) {
-		if (iface.role == "upstream")
-			push(wans, iface);
-		else if (iface.role == "downstream" && type(iface.vlan) == "object")
-			push(vlans, iface);
-		else if (iface.role == "downstream" && type(iface.vlan) != "object")
-			push(lans, iface);
-	}
-}
-
-let vid_map = {};
-for (let v in vlans) {
-	let vid = (type(v.vlan) == "object") ? v.vlan.id : null;
-	if (!vid) continue;
-	vid_map["" + vid] = true;
-}
-let vlan_ids = sort(keys(vid_map));
 let eth_used = {};
-let next_br = 0;
+let upstream_assigned = false;
+// All other bridges start from br1
+let next_br_index = 1;
 %}
 
 interfaces {
-	{% for (let i = 0; i < length(wans); i++): %}
-	{%
-		let wan       = wans[i];
-		let ipv4      = wan.ipv4;
-		let addr_mode = ipv4 ? ipv4.addressing : null;
-		let cidr      = (ipv4 && type(ipv4.subnet) == "string") ? ipv4.subnet : null;
+	{% if (type(config.interfaces) == "array"): %}
+		{% for (let iface in config.interfaces): %}
+			{%
+				// Skip VLAN sub-interfaces here; they are rendered as VIFs under the downstream bridge
+				if (type(iface?.vlan) == "object")
+					continue;
 
-		let bname = "br" + next_br;
-		next_br++;
+				if (iface?.role != "upstream" && iface?.role != "downstream")
+					continue;
 
-		let members = ethernet.lookup_by_interface_port(wan);
-		ethernet.mark_eth1_used(members, eth_used);
-	%}
-	bridge {{ bname }} {
-		{% if (addr_mode == "dynamic"): %}
-		address dhcp
-		{% elif (addr_mode == "static" && cidr): %}
-		address {{ cidr }}
-		{% endif %}
+				let role = iface.role;
+				let bname;
 
-		{% if (wan.name): %}
-		description {{ wan.name }}
-		{% endif %}
+				if (role == "upstream" && !upstream_assigned) {
+					bname = ethernet.upstream_bridge_name();
+					upstream_assigned = true;
+				}
+				else {
+					bname = ethernet.calculate_next_bridge_name(next_br_index);
+					next_br_index++;
+				}
 
-		{% if (length(members)): %}
-		member {
-			{% for (let m in members): %}
-			interface {{ m }} {
-			}
-			{% endfor %}
-		}
-		{% endif %}
-	}
-	{% endfor %}
+				let members = ethernet.lookup_interface_by_port(iface);
+				ethernet.mark_eth_used(members, eth_used);
+			%}
 
-	{% for (let i = 0; i < length(lans); i++): %}
-	{%
-		let lan       = lans[i];
-		let ipv4      = lan.ipv4;
-		let addr_mode = ipv4 ? ipv4.addressing : null;
-		let cidr      = (ipv4 && type(ipv4.subnet) == "string") ? ipv4.subnet : null;
+{{ include('interface/bridge.uc', { config, role, bname, iface, members }) }}
 
-		let bname = "br" + next_br;
-		next_br++;
-
-		let members = ethernet.lookup_by_interface_port(lan);
-		ethernet.mark_eth1_used(members, eth_used);
-	%}
-	bridge {{ bname }} {
-		{% if (addr_mode == "dynamic"): %}
-		address dhcp
-		{% elif (addr_mode == "static" && cidr): %}
-		address {{ cidr }}
-		{% endif %}
-
-		{% if (lan.name): %}
-		description {{ lan.name }}
-		{% endif %}
-
-		enable-vlan
-
-		{% if (length(members)): %}
-		member {
-			{% for (let m in members): %}
-			interface {{ m }} {
-				{% for (let vid in vlan_ids): %}
-				allowed-vlan {{ vid }}
-				{% endfor %}
-				native-vlan 1
-			}
-			{% endfor %}
-		}
-		{% endif %}
-
-		{% for (let v in vlans): %}
-			{% if (type(v.vlan) == "object" && v.vlan.id && type(v.ipv4) == "object" && type(v.ipv4.subnet) == "string"): %}
-		vif {{ v.vlan.id }} {
-			address {{ v.ipv4.subnet }}
-			{% if (v.name): %}
-			description {{ v.name }}
-			{% else %}
-			description VLAN{{ v.vlan.id }}
-			{% endif %}
-		}
-			{% endif %}
 		{% endfor %}
-	}
-	{% endfor %}
+	{% endif %}
 
 	{%
 		let eth_list = sort(keys(eth_used));
 	%}
-	{% for (let e in eth_list): %}
-	ethernet {{ e }} {
-	}
-	{% endfor %}
+{{ include('interface/ethernet.uc', { eth_list }) }}
 }

@@ -22,12 +22,12 @@
 
         }
     }
-    let wan_bridge = (length(wans) > 0) ? "br0" : null;
+   let wan_bridge = ethernet.upstream_bridge_name(); 
 %}
 
 nat {
     source {
-        {% if (wan_ifname && length(nets) > 0): %}
+        {% if (length(nets) > 0 && length(wans) > 0): %}
             {% for (let i = 0; i < length(nets); i++): %}
         rule {{ i + 1 }} {
             outbound-interface {

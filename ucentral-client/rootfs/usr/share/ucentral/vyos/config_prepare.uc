@@ -92,19 +92,9 @@ let ethernet = {
 		}
 
 		for (let ROLE, ports in roles) {
-			switch (length(ports)) {
-			case 0:
-				break;
-
-			case 1:
-				rv[ROLE] = ports[0];
-				break;
-
-			default:
-				map(sort(ports, (a, b) => (a.index - b.index)), (port, i) => {
+			map(sort(ports, (a, b) => (a.index - b.index)), (port, i) => {
 					rv[ROLE + (i + 1)] = port;
 				});
-			}
 		}
 
 		return rv;
@@ -129,7 +119,7 @@ let ethernet = {
 		return matched;
 	},
 
-	lookup_by_interface_port: function(interface) {
+	lookup_interface_by_port: function(interface) {
 		let globs = {};
 
 		if (type(interface?.ethernet) != "array")
@@ -143,7 +133,7 @@ let ethernet = {
 		return sort(keys(this.lookup(globs)));
 	},
 
-	mark_eth1_used: function(list, used_map) {
+	mark_eth_used: function(list, used_map) {
 		if (type(used_map) != "object" || type(list) != "array")
 			return;
 
@@ -151,24 +141,21 @@ let ethernet = {
 			if (type(m) == "string" && length(m))
 				used_map[m] = true;
 		}
+	},
+	
+	upstream_bridge_name: function() {
+		return "br0";
+	},
+	
+	calculate_next_bridge_name: function(next_br_index) {
+		return "br" + next_br_index;
 	}
 };
 
 
 return {
 	vyos_render: function(config) {
-		let capab = load_capabilities();
-		let wan_ifname = null;
-		let lan_ifname = null;
 		ethernet.init();
-
-		if (capab && type(capab.network) == "object") {
-			if (type(capab.network.wan) == "array" && length(capab.network.wan) > 0)
-				wan_ifname = capab.network.wan[0];
-
-			if (type(capab.network.lan) == "array" && length(capab.network.lan) > 0)
-				lan_ifname = capab.network.lan[0];
-		}
 		let op_arg = { };
 		let op = "showConfig";
 		op_arg.path = ["pki"];
@@ -178,9 +165,7 @@ return {
 
 		let interfaces = render('templates/interface.uc', {
 			config,
-			wan_ifname,
-			ethernet,
-			lan_ifname
+			ethernet
 		});
 
 		op_arg.path = ["system", "login"];
@@ -189,7 +174,7 @@ return {
 
 		let nat = render('templates/nat.uc', {
 			config,
-			wan_ifname,
+			ethernet,
 			network_base
 		});
 
