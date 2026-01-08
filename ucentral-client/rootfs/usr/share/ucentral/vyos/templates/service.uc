@@ -45,7 +45,7 @@
 						if (range_start)
 							range_stop = add_host(range_start, count - 1);
 				
-						let sid = (type(iface.vlan) == "object" && iface.vlan.id) ? int(iface.vlan.id) : (4097 + int(iface.index));
+						let subnet_id = (type(iface.vlan) == "object" && iface.vlan.id) ? int(iface.vlan.id) : (4051 + int(iface.index));
 			
 						if (range_start && range_stop) {
 							push(lans, {
@@ -55,7 +55,7 @@
 								lease_secs,
 								range_start,
 								range_stop,
-								subnet_id: sid
+								subnet_id: subnet_id
 							});
 						}
 					}

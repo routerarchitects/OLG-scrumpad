@@ -24,7 +24,7 @@
 		vlan_ids = sort(keys(vid_map));
 	}
 %}
-	bridge {{ bname }} {
+	bridge {{ br_name }} {
 		{% if (addr_mode == "dynamic"): %}
 		address dhcp
 		{% elif (addr_mode == "static" && cidr): %}

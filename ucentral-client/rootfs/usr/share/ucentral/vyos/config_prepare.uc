@@ -77,27 +77,27 @@ let ethernet = {
 			return {};
 
 		let roles = {};
-		let rv = {};
+		let ret_val = {};
 
 		for (let role, spec in capab.network) {
 			if (type(spec) != "array")
 				continue;
 
 			for (let i, ifname in spec) {
-				let ROLE = uc(role);
+				role = uc(role);
 				let netdev = split(ifname, ':');  // eth0 or eth0:5 (ignore suffix)
 				let port = { netdev: netdev[0], index: i };
-				push(roles[ROLE] = roles[ROLE] || [], port);
+				push(roles[role] = roles[role] || [], port);
 			}
 		}
 
-		for (let ROLE, ports in roles) {
+		for (let role, ports in roles) {
 			map(sort(ports, (a, b) => (a.index - b.index)), (port, i) => {
-					rv[ROLE + (i + 1)] = port;
+					ret_val[role + (i + 1)] = port;
 				});
 		}
 
-		return rv;
+		return ret_val;
 	},
 
 	init: function() {
